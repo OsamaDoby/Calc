@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osama Finance Calc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-neon: #00f2ff;
+            --secondary-neon: #7000ff;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #f8fafc;
+            --input-bg: #1e293b;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f1f5f9;
+                --card-bg: rgba(255, 255, 255, 0.9);
+                --text-color: #0f172a;
+                --input-bg: #ffffff;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Neon Background Effect */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-neon);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: -1;
+            top: 10%;
+            left: 10%;
+            opacity: 0.4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lang-switch {
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+
+        button.lang-btn {
+            background: transparent;
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .result-item span:last-child {
+            font-weight: bold;
+            color: var(--primary-neon);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* LTR adjustments for English */
+        body.en {
+            direction: ltr;
+            font-family: 'Poppins', sans-serif;
+        }
+        body.en .lang-switch { text-align: right; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button class="lang-btn" onclick="toggleLang()" id="langBtn">English</button>
+    </div>
+
+    <h1 id="title">Osama Finance Calc</h1>
+
+    <div class="input-group">
+        <label id="lblAmount">المبلغ الأساسي</label>
+        <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
+    </div>
+
+    <div class="input-group">
+        <label id="lblInterest">الفايدة (%)</label>
+        <input type="number" id="interest" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="input-group">
+        <label id="lblMonths">المدة (بالشهور)</label>
+        <input type="number" id="months" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="results">
+        <div class="result-item">
+            <span id="resAdmin">المصاريف الإدارية (5%):</span>
+            <span id="adminFee">0</span>
+        </div>
+        <div class="result-item">
+            <span id="resInterest">الفايدة الموزعة:</span>
+            <span id="totalInterest">0</span>
+        </div>
+        <div class="result-item">
+            <span id="resInstallment">القسط الشهري:</span>
+            <span id="monthlyPayment">0</span>
+        </div>
+        <div class="result-item">
+            <span id="resNet">صافي المبلغ المستلم:</span>
+            <span id="netAmount">0</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        Designed by <strong>Osama</strong>
+    </div>
+</div>
+
+<script>
+    const translations = {
+        ar: {
+            title: "Osama Finance Calc",
+            lblAmount: "المبلغ الأساسي",
+            lblInterest: "الفايدة (%)",
+            lblMonths: "المدة (بالشهور)",
+            resAdmin: "المصاريف الإدارية (5%):",
+            resInterest: "الفايدة الموزعة:",
+            resInstallment: "القسط الشهري:",
+            resNet: "صافي المبلغ المستلم:",
+            langBtn: "English"
+        },
+        en: {
+            title: "Osama Finance Calc",
+            lblAmount: "Principal Amount",
+            lblInterest: "Interest Rate (%)",
+            lblMonths: "Duration (Months)",
+            resAdmin: "Admin Fees (5%):",
+            resInterest: "Total Interest:",
+            resInstallment: "Monthly Installment:",
+            resNet: "Net Disbursed Amount:",
+            langBtn: "عربي"
+        }
+    };
+
+    let currentLang = 'ar';
+
+    function toggleLang() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.body.className = currentLang === 'en' ? 'en' : '';
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        
+        for (let key in translations[currentLang]) {
+            const el = document.getElementById(key);
+            if (el) el.innerText = translations[currentLang][key];
+        }
+        calculate();
+    }
+
+    function calculate() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const interestRate = parseFloat(document.getElementById('interest').value) || 0;
+        const months = parseInt(document.getElementById('months').value) || 0;
+
+        // 1. المصاريف الإدارية 5%
+        const adminFee = amount * 0.05;
+
+        // 2. الفائدة الموزعة (Simple Interest formula for installments)
+        const totalInterest = amount * (interestRate / 100) * (months / 12);
+
+        // 3. القسط الشهري
+        const monthlyPayment = months > 0 ? (amount + totalInterest) / months : 0;
+
+        // 4. صافي المبلغ بعد خصم المصاريف وأول قسط
+        const netAmount = amount > 0 ? (amount - adminFee - monthlyPayment) : 0;
+
+        // Display results
+        document.getElementById('adminFee').innerText = adminFee.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('totalInterest').innerText = totalInterest.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('monthlyPayment').innerText = monthlyPayment.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('netAmount').innerText = (netAmount > 0 ? netAmount : 0).toLocaleString(undefined, {minimumFractionDigits: 2});
+    }
+</script>
+
+</body>
+</html>
