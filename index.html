@@ -9,24 +9,24 @@
     <style>
         :root {
             --bg-color: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
+            --card-bg: rgba(15, 23, 42, 0.9);
             --text-color: #f8fafc;
             --input-bg: #1e293b;
             --primary-neon: #00f2ff;
             --secondary-neon: #7000ff;
-            --border-color: rgba(0, 242, 255, 0.3);
-            --glow: 0 0 15px rgba(0, 242, 255, 0.5);
+            --border-color: rgba(0, 242, 255, 0.2);
+            --glow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
 
         [data-theme="light"] {
-            --bg-color: #f1f5f9;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #0f172a;
-            --input-bg: #f8fafc;
+            --text-color: #1e293b;
+            --input-bg: #f1f5f9;
             --primary-neon: #0ea5e9;
             --secondary-neon: #6366f1;
-            --border-color: #cbd5e1;
-            --glow: 0 0 10px rgba(14, 165, 233, 0.2);
+            --border-color: #e2e8f0;
+            --glow: 0 0 5px rgba(14, 165, 233, 0.1);
         }
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
@@ -37,37 +37,21 @@
             color: var(--text-color);
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
-            position: relative;
         }
-
-        /* Neon Orbs in Background */
-        body::before, body::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.5;
-        }
-        body::before { background: var(--primary-neon); top: -100px; left: -100px; }
-        body::after { background: var(--secondary-neon); bottom: -100px; right: -100px; }
 
         .container {
             width: 100%;
-            max-width: 450px;
-            padding: 2.5rem;
+            max-width: 420px;
+            padding: 2rem;
             background: var(--card-bg);
-            border-radius: 30px;
-            border: 2px solid var(--border-color);
-            box-shadow: var(--glow), 0 20px 50px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--glow);
+            margin-bottom: 20px;
         }
 
         .header-actions { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
@@ -76,93 +60,107 @@
             background: var(--input-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            padding: 8px 15px;
-            border-radius: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            box-shadow: var(--glow);
+            font-size: 0.8rem;
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+            gap: 10px;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary-neon);
-            text-shadow: var(--glow);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; }
         input {
             width: 100%;
-            padding: 14px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             background: var(--input-bg);
             color: var(--text-color);
-            font-size: 1.1rem;
             outline: none;
+            font-size: 1rem;
         }
         input:focus { border-color: var(--primary-neon); box-shadow: var(--glow); }
 
         .results {
-            margin-top: 2rem;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
+            margin-top: 1.5rem;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
             border: 1px solid var(--border-color);
         }
 
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; }
-        .result-item span:last-child { color: var(--primary-neon); font-weight: 700; text-shadow: var(--glow); }
+        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
         
         .result-item.highlight {
-            border-top: 2px solid var(--border-color);
-            margin-top: 15px;
-            padding-top: 15px;
-            font-size: 1.1rem;
-        }
-
-        .share-btn {
-            width: 100%;
-            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 15px;
-            font-weight: bold;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 10px;
+            color: var(--primary-neon);
             font-size: 1rem;
-            cursor: pointer;
-            margin-top: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
         }
 
-        .footer { text-align: center; margin-top: 2rem; font-size: 0.9rem; }
-        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; text-shadow: var(--glow); }
+        .save-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--primary-neon);
+            border: 1px solid var(--primary-neon);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
+
+        /* Info Section */
+        .info-box {
+            width: 100%;
+            max-width: 420px;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
+        .info-box ul { padding-right: 20px; margin-bottom: 0; }
+
+        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; }
+        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
 
         .whatsapp-float {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 20px;
+            left: 20px; /* تم التغيير لليسار عشان ميتداخلش مع الكلام في العربي */
             background: #25d366;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
-            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
             color: white;
         }
 
+        body.en .whatsapp-float { left: auto; right: 20px; }
         body.en { direction: ltr; }
     </style>
 </head>
@@ -175,8 +173,8 @@
     </div>
 
     <div class="logo-area">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-        <span id="titleText">Finance Calculator</span>
+        <span>Finance Calculator</span>
+        <span style="font-size: 1.2rem;">$</span>
     </div>
 
     <div class="input-group">
@@ -203,13 +201,13 @@
             <span id="resNetAdmin">الصافي بعد المصاريف:</span>
             <span id="netAfterAdmin">0</span>
         </div>
-        <div class="result-item">
+        <div class="result-item" style="opacity: 0.7;">
             <span id="resInterest">الفايدة الموزعة:</span>
             <span id="totalInterest">0</span>
         </div>
-        <div class="result-item" style="color: var(--secondary-neon);">
+        <div class="result-item">
             <span id="resInstallment">القسط الشهري (مقرب):</span>
-            <span id="monthlyPayment">0</span>
+            <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span>
         </div>
         <div class="result-item highlight">
             <span id="resNetTotal">صافي المستلم النهائي:</span>
@@ -217,34 +215,53 @@
         </div>
     </div>
 
-    <button class="share-btn" onclick="downloadImage()">
-        <span id="btnSave">حفظ كصورة للعميل</span>
+    <button class="save-btn" onclick="downloadImage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span id="btnSave">تحميل فاتورة العميل</span>
     </button>
+</div>
 
-    <div class="footer" id="footerText">
-        Designed & Developed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
-    </div>
+<div class="info-box">
+    <h3 id="infoTitle">دليل الإستخدام ومعلومات هامة</h3>
+    <ul id="infoList">
+        <li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
+        <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
+        <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
+        <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
+    </ul>
+</div>
+
+<div class="footer">
+    Designed & Developed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
 </div>
 
 <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="whatsapp-float" target="_blank">
-    <svg width="32" height="32" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
 </a>
 
 <script>
     const translations = {
         ar: {
-            titleText: "Finance Calculator",
             lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
             resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
             resInterest: "الفايدة الموزعة:", resInstallment: "القسط الشهري (مقرب):",
-            resNetTotal: "صافي المستلم النهائي:", btnSave: "حفظ كصورة للعميل", langBtn: "English"
+            resNetTotal: "صافي المستلم النهائي:", btnSave: "تحميل فاتورة العميل", langBtn: "English",
+            infoTitle: "دليل الإستخدام ومعلومات هامة",
+            infoList: `<li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
+                       <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
+                       <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات.</li>
+                       <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
         },
         en: {
-            titleText: "Finance Calculator",
             lblAmount: "Principal Amount", lblInterest: "Interest Rate (%)", lblMonths: "Duration (Months)",
             resAdmin: "Admin Fees:", resNetAdmin: "Net after Admin Fees:",
-            resInterest: "Total Interest:", resInstallment: "Monthly Payment (Rounded):",
-            resNetTotal: "Final Net Disbursed:", btnSave: "Save for Client", langBtn: "عربي"
+            resInterest: "Distributed Interest:", resInstallment: "Monthly Payment (Rounded):",
+            resNetTotal: "Final Net Disbursed:", btnSave: "Download Client Invoice", langBtn: "عربي",
+            infoTitle: "User Guide & Important Info",
+            infoList: `<li><b>5% Admin fees</b> are deducted from the principal.</li>
+                       <li>Interest is calculated as simple interest over months.</li>
+                       <li><b>Rounding:</b> Monthly payment is rounded up to nearest 5 EGP.</li>
+                       <li>Final Net is amount minus admin fees and first installment.</li>`
         }
     };
 
@@ -262,7 +279,7 @@
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         for (let key in translations[currentLang]) {
             const el = document.getElementById(key);
-            if (el && key !== 'footer') el.innerText = translations[currentLang][key];
+            if (el) el.innerHTML = translations[currentLang][key];
         }
     }
 
@@ -271,19 +288,11 @@
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
         const months = parseInt(document.getElementById('months').value) || 0;
 
-        // 1. المصاريف الإدارية
         const adminFee = amount * 0.05;
         const netAfterAdmin = amount - adminFee;
-
-        // 2. الفائدة والقسط
         const totalInterest = amount * (interestRate / 100) * (months / 12);
-        let rawMonthlyPayment = months > 0 ? (amount + totalInterest) / months : 0;
-        
-        // --- ميزة التقريب لأقرب 5 جنيه جَبراً ---
-        // مثال: 1083.33 تصبح 1085
+        const rawMonthlyPayment = months > 0 ? (amount + totalInterest) / months : 0;
         const roundedMonthlyPayment = Math.ceil(rawMonthlyPayment / 5) * 5;
-
-        // 3. الصافي النهائي (بعد خصم المصاريف وأول قسط مقرب)
         const netAmount = amount > 0 ? (netAfterAdmin - roundedMonthlyPayment) : 0;
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
@@ -300,7 +309,7 @@
             scale: 2
         });
         const link = document.createElement('a');
-        link.download = 'Finance-Quote.png';
+        link.download = 'Client-Invoice.png';
         link.href = canvas.toDataURL();
         link.click();
     }
