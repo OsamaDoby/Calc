@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Calculator</title>
+    <title>Finance & Smart Credit Study</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-color: #020617;
-            --card-bg: rgba(15, 23, 42, 0.9);
+            --card-bg: rgba(15, 23, 42, 0.95);
             --text-color: #f8fafc;
             --input-bg: #1e293b;
             --primary-neon: #00f2ff;
             --secondary-neon: #7000ff;
             --border-color: rgba(0, 242, 255, 0.2);
-            --glow: 0 0 10px rgba(0, 242, 255, 0.3);
+            --success: #22c55e;
+            --glow: 0 0 15px rgba(0, 242, 255, 0.3);
         }
 
         [data-theme="light"] {
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-color: #1e293b;
-            --input-bg: #f1f5f9;
+            --input-bg: #f8fafc;
             --primary-neon: #0ea5e9;
             --secondary-neon: #6366f1;
-            --border-color: #e2e8f0;
-            --glow: 0 0 5px rgba(14, 165, 233, 0.1);
+            --border-color: #cbd5e1;
         }
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
@@ -43,42 +43,51 @@
             padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 25px;
+        .main-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: var(--input-bg);
+            padding: 5px;
+            border-radius: 15px;
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
-            margin-bottom: 20px;
         }
 
-        .header-actions { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
-
-        .btn-tool {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            background: transparent;
             color: var(--text-color);
-            padding: 6px 12px;
-            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.8rem;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--primary-neon);
-            margin-bottom: 1.5rem;
+        .nav-btn.active {
+            background: var(--primary-neon);
+            color: #000;
         }
 
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; }
+        .container {
+            width: 100%;
+            max-width: 460px;
+            padding: 2.2rem;
+            background: var(--card-bg);
+            border-radius: 30px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--glow);
+            position: relative;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .logo-area { text-align: center; color: var(--primary-neon); font-weight: 700; font-size: 1.6rem; margin-bottom: 1.5rem; text-shadow: var(--glow); }
+
+        .input-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: var(--primary-neon); }
         input {
             width: 100%;
             padding: 12px;
@@ -89,150 +98,125 @@
             outline: none;
             font-size: 1rem;
         }
-        input:focus { border-color: var(--primary-neon); box-shadow: var(--glow); }
 
-        .results {
-            margin-top: 1.5rem;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
+        .study-results {
+            background: rgba(0, 242, 255, 0.05);
+            padding: 18px;
+            border-radius: 20px;
+            margin-top: 15px;
             border: 1px solid var(--border-color);
         }
 
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
-        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
-        
-        .result-item.highlight {
-            border-top: 1px solid var(--border-color);
-            margin-top: 10px;
-            padding-top: 10px;
-            color: var(--primary-neon);
-            font-size: 1rem;
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .result-row b { color: var(--primary-neon); }
+
+        .status-badge {
+            text-align: center;
+            padding: 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-top: 15px;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+            text-transform: uppercase;
         }
 
-        .save-btn {
+        .action-btn {
             width: 100%;
-            background: transparent;
-            color: var(--primary-neon);
-            border: 1px solid var(--primary-neon);
-            padding: 12px;
-            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
-
-        /* Info Section */
-        .info-box {
-            width: 100%;
-            max-width: 420px;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
-        .info-box ul { padding-right: 20px; margin-bottom: 0; }
-
-        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; }
-        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
 
         .whatsapp-float {
             position: fixed;
-            bottom: 20px;
-            left: 20px; /* تم التغيير لليسار عشان ميتداخلش مع الكلام في العربي */
+            bottom: 25px;
+            left: 25px;
             background: #25d366;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             z-index: 1000;
             color: white;
+            text-decoration: none;
         }
 
-        body.en .whatsapp-float { left: auto; right: 20px; }
-        body.en { direction: ltr; }
+        .footer { margin-top: 25px; font-size: 0.85rem; opacity: 0.8; }
+        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
+        
+        .hint { font-size: 0.75rem; color: #94a3b8; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
 
-<div class="container" id="calculatorCard">
-    <div class="header-actions">
-        <button class="btn-tool" onclick="toggleLang()" id="langBtn">English</button>
-        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
-    </div>
-
-    <div class="logo-area">
-        <span>Finance Calculator</span>
-        <span style="font-size: 1.2rem;">$</span>
-    </div>
-
-    <div class="input-group">
-        <label id="lblAmount">المبلغ الأساسي</label>
-        <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
-    </div>
-
-    <div class="input-group">
-        <label id="lblInterest">الفايدة (%)</label>
-        <input type="number" id="interest" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="input-group">
-        <label id="lblMonths">المدة (بالشهور)</label>
-        <input type="number" id="months" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="results">
-        <div class="result-item">
-            <span id="resAdmin">المصاريف الإدارية:</span>
-            <span id="adminFee">0</span>
-        </div>
-        <div class="result-item">
-            <span id="resNetAdmin">الصافي بعد المصاريف:</span>
-            <span id="netAfterAdmin">0</span>
-        </div>
-        <div class="result-item" style="opacity: 0.7;">
-            <span id="resInterest">الفايدة الموزعة:</span>
-            <span id="totalInterest">0</span>
-        </div>
-        <div class="result-item">
-            <span id="resInstallment">القسط الشهري (مقرب):</span>
-            <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span>
-        </div>
-        <div class="result-item highlight">
-            <span id="resNetTotal">صافي المستلم النهائي:</span>
-            <span id="netAmount">0</span>
-        </div>
-    </div>
-
-    <button class="save-btn" onclick="downloadImage()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        <span id="btnSave">تحميل فاتورة العميل</span>
-    </button>
+<div class="main-nav">
+    <button class="nav-btn active" id="btn-calc" onclick="showTab('calc')">حاسبة القسط</button>
+    <button class="nav-btn" id="btn-study" onclick="showTab('study')">الدراسة المقترحة</button>
 </div>
 
-<div class="info-box">
-    <h3 id="infoTitle">دليل الإستخدام ومعلومات هامة</h3>
-    <ul id="infoList">
-        <li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
-        <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
-        <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
-        <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
-    </ul>
+<div class="container" id="captureArea">
+    <div id="calc" class="tab-content active">
+        <div class="logo-area">Finance Calc $</div>
+        <div class="input-group">
+            <label>مبلغ التمويل المطلوب</label>
+            <input type="number" id="amount" placeholder="مثال: 20000" oninput="doLogic()">
+        </div>
+        <div class="input-group">
+            <label>الفائدة السنوية (%)</label>
+            <input type="number" id="interest" value="25" oninput="doLogic()">
+        </div>
+        <div class="input-group">
+            <label>مدة التمويل (شهور)</label>
+            <input type="number" id="months" value="12" oninput="doLogic()">
+        </div>
+        <div class="study-results">
+            <div class="result-row"><span>القسط الشهري (مقرب):</span> <b id="resInstallment">0</b></div>
+            <div class="result-row"><span>المصاريف الإدارية (5%):</span> <b id="resAdmin">0</b></div>
+            <div class="result-row" style="margin-top:10px; border-top:1px solid var(--border-color); padding-top:10px;">
+                <span>صافي المستلم النهائي:</span> <b id="resNet">0</b>
+            </div>
+        </div>
+    </div>
+
+    <div id="study" class="tab-content">
+        <div class="logo-area">Credit Study 📄</div>
+        <div class="input-group">
+            <label>متوسط الدخل الشهري (مقترح)</label>
+            <input type="number" id="income" oninput="updateStudyManually()">
+            <span class="hint">* تم حسابه ليكون عبء الدين 40% تقريباً</span>
+        </div>
+        <div class="input-group">
+            <label>إجمالي المصاريف والالتزامات</label>
+            <input type="number" id="expenses" oninput="updateStudyManually()">
+        </div>
+        <div class="input-group">
+            <label>إجمالي أصول المشروع (جرد بضاعة)</label>
+            <input type="number" id="assets" oninput="updateStudyManually()">
+        </div>
+        
+        <div class="study-results">
+            <div class="result-row"><span>القسط من الدخل (عبء الدين):</span> <b id="resRatio">0%</b></div>
+            <div class="result-row"><span>صافي الربح المتبقي:</span> <b id="resRemain">0</b></div>
+            <div id="statusBox" class="status-badge">دراسة مطابقة للسيستم</div>
+        </div>
+    </div>
+
+    <button class="action-btn" onclick="downloadImage()">تحميل التقرير الكامل</button>
 </div>
 
 <div class="footer">
-    Designed & Developed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
+    Developed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
 </div>
 
 <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="whatsapp-float" target="_blank">
@@ -240,76 +224,82 @@
 </a>
 
 <script>
-    const translations = {
-        ar: {
-            lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
-            resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
-            resInterest: "الفايدة الموزعة:", resInstallment: "القسط الشهري (مقرب):",
-            resNetTotal: "صافي المستلم النهائي:", btnSave: "تحميل فاتورة العميل", langBtn: "English",
-            infoTitle: "دليل الإستخدام ومعلومات هامة",
-            infoList: `<li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
-                       <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
-                       <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات.</li>
-                       <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
-        },
-        en: {
-            lblAmount: "Principal Amount", lblInterest: "Interest Rate (%)", lblMonths: "Duration (Months)",
-            resAdmin: "Admin Fees:", resNetAdmin: "Net after Admin Fees:",
-            resInterest: "Distributed Interest:", resInstallment: "Monthly Payment (Rounded):",
-            resNetTotal: "Final Net Disbursed:", btnSave: "Download Client Invoice", langBtn: "عربي",
-            infoTitle: "User Guide & Important Info",
-            infoList: `<li><b>5% Admin fees</b> are deducted from the principal.</li>
-                       <li>Interest is calculated as simple interest over months.</li>
-                       <li><b>Rounding:</b> Monthly payment is rounded up to nearest 5 EGP.</li>
-                       <li>Final Net is amount minus admin fees and first installment.</li>`
-        }
-    };
+    let currentInstallment = 0;
 
-    let currentLang = 'ar';
-
-    function toggleTheme() {
-        const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-        document.getElementById('themeBtn').innerText = theme === 'light' ? '☀️' : '🌙';
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
     }
 
-    function toggleLang() {
-        currentLang = currentLang === 'ar' ? 'en' : 'ar';
-        document.body.className = currentLang === 'en' ? 'en' : '';
-        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        for (let key in translations[currentLang]) {
-            const el = document.getElementById(key);
-            if (el) el.innerHTML = translations[currentLang][key];
-        }
-    }
-
-    function calculate() {
+    function doLogic() {
+        // 1. حسابات الحاسبة
         const amount = parseFloat(document.getElementById('amount').value) || 0;
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
         const months = parseInt(document.getElementById('months').value) || 0;
 
         const adminFee = amount * 0.05;
-        const netAfterAdmin = amount - adminFee;
         const totalInterest = amount * (interestRate / 100) * (months / 12);
-        const rawMonthlyPayment = months > 0 ? (amount + totalInterest) / months : 0;
-        const roundedMonthlyPayment = Math.ceil(rawMonthlyPayment / 5) * 5;
-        const netAmount = amount > 0 ? (netAfterAdmin - roundedMonthlyPayment) : 0;
+        const rawPayment = months > 0 ? (amount + totalInterest) / months : 0;
+        currentInstallment = Math.ceil(rawPayment / 5) * 5;
+        
+        const net = amount > 0 ? (amount - adminFee - currentInstallment) : 0;
 
-        document.getElementById('adminFee').innerText = adminFee.toLocaleString();
-        document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
-        document.getElementById('totalInterest').innerText = totalInterest.toLocaleString();
-        document.getElementById('monthlyPayment').innerText = roundedMonthlyPayment.toLocaleString();
-        document.getElementById('netAmount').innerText = (netAmount > 0 ? Math.floor(netAmount) : 0).toLocaleString();
+        document.getElementById('resInstallment').innerText = currentInstallment.toLocaleString();
+        document.getElementById('resAdmin').innerText = adminFee.toLocaleString();
+        document.getElementById('resNet').innerText = Math.floor(net).toLocaleString();
+
+        // 2. توليد الدراسة الائتمانية الوهمية الذكية
+        if (amount > 0) {
+            // الدخل المقترح يخلي القسط يمثل 40% (عشان يبقى مقبول سيستم)
+            const suggestedIncome = Math.round((currentInstallment / 0.40) / 100) * 100;
+            // المصاريف حوالي 15% من الدخل
+            const suggestedExp = Math.round((suggestedIncome * 0.15) / 50) * 50;
+            // الأصول (بضاعة) حوالي 1.8 مرة من مبلغ التمويل
+            const suggestedAssets = Math.round((amount * 1.8) / 500) * 500;
+
+            document.getElementById('income').value = suggestedIncome;
+            document.getElementById('expenses').value = suggestedExp;
+            document.getElementById('assets').value = suggestedAssets;
+
+            updateStudyDisplay(suggestedIncome, suggestedExp);
+        }
+    }
+
+    function updateStudyManually() {
+        const inc = parseFloat(document.getElementById('income').value) || 0;
+        const exp = parseFloat(document.getElementById('expenses').value) || 0;
+        updateStudyDisplay(inc, exp);
+    }
+
+    function updateStudyDisplay(inc, exp) {
+        const ratio = inc > 0 ? (currentInstallment / inc) * 100 : 0;
+        const remain = inc - exp - currentInstallment;
+
+        document.getElementById('resRatio').innerText = ratio.toFixed(1) + "%";
+        document.getElementById('resRemain').innerText = Math.floor(remain).toLocaleString();
+        
+        const status = document.getElementById('statusBox');
+        if (ratio > 0 && ratio <= 50) {
+            status.innerText = "دراسة مطابقة (عبء دين مقبول)";
+            status.style.color = "var(--success)";
+            status.style.borderColor = "var(--success)";
+        } else if (ratio > 50) {
+            status.innerText = "تنبيه: عبء الدين مرتفع";
+            status.style.color = "#fbbf24";
+            status.style.borderColor = "#fbbf24";
+        }
     }
 
     async function downloadImage() {
-        const card = document.getElementById('calculatorCard');
-        const canvas = await html2canvas(card, {
+        const area = document.getElementById('captureArea');
+        const canvas = await html2canvas(area, {
             backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-color'),
             scale: 2
         });
         const link = document.createElement('a');
-        link.download = 'Client-Invoice.png';
+        link.download = 'Finance-Full-Report.png';
         link.href = canvas.toDataURL();
         link.click();
     }
