@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>FC ESNA 2 - Finance Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -66,16 +66,35 @@
             font-size: 0.8rem;
         }
 
+        /* --- تعديل اللوجو الجديد --- */
         .logo-area {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--primary-neon);
             margin-bottom: 1.5rem;
+            text-align: center;
         }
+
+        .logo-main {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-neon);
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-shadow: var(--glow);
+        }
+
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-color);
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
+        }
+        /* ----------------------- */
 
         .input-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; }
@@ -127,7 +146,6 @@
         }
         .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
 
-        /* Info Section */
         .info-box {
             width: 100%;
             max-width: 420px;
@@ -147,7 +165,7 @@
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
-            left: 20px; /* تم التغيير لليسار عشان ميتداخلش مع الكلام في العربي */
+            left: 20px;
             background: #25d366;
             width: 50px;
             height: 50px;
@@ -173,8 +191,8 @@
     </div>
 
     <div class="logo-area">
-        <span>Finance Calculator</span>
-        <span style="font-size: 1.2rem;">$</span>
+        <div class="logo-main">FC ESNA 2</div>
+        <div class="logo-sub">Finance Calculator</div>
     </div>
 
     <div class="input-group">
