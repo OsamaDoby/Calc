@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg-color: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8); /* تم جعلها زجاجية قليلاً */
+            --card-bg: rgba(15, 23, 42, 0.85);
             --text-color: #f8fafc;
             --input-bg: rgba(30, 41, 59, 0.7);
             --primary-neon: #00f2ff;
@@ -20,7 +20,7 @@
 
         [data-theme="light"] {
             --bg-color: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.85); /* زجاجية خفيفة للمود الفاتح */
+            --card-bg: rgba(255, 255, 255, 0.9);
             --text-color: #1e293b;
             --input-bg: #f1f5f9;
             --primary-neon: #0ea5e9;
@@ -41,8 +41,6 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            /* إضافة خلفية انسيابية خفيفة */
-            background-image: radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.05) 0%, transparent 50%);
         }
 
         .container {
@@ -50,15 +48,15 @@
             max-width: 420px;
             padding: 2rem;
             background: var(--card-bg);
-            backdrop-filter: blur(10px); /* تأثير الزجاج */
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 25px;
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
             margin-bottom: 20px;
         }
 
-        .header-actions { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 
         .btn-tool {
             background: var(--input-bg);
@@ -68,13 +66,22 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
+
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        .btn-reset:hover { background: #ef4444; color: white; }
 
         .logo-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             margin-bottom: 1.5rem;
             text-align: center;
         }
@@ -83,23 +90,22 @@
             font-size: 1.8rem;
             font-weight: 800;
             color: var(--primary-neon);
-            letter-spacing: 1px;
-            line-height: 1.1;
             text-shadow: var(--glow);
         }
 
         .logo-sub {
             font-size: 0.75rem;
-            font-weight: 400;
-            color: var(--text-color);
             opacity: 0.6;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-top: 2px;
         }
 
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
         .input-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
+        
         input {
             width: 100%;
             padding: 12px;
@@ -115,7 +121,7 @@
         .results {
             margin-top: 1.5rem;
             padding: 15px;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 15px;
             border: 1px solid var(--border-color);
         }
@@ -127,13 +133,12 @@
             border-top: 1px solid var(--border-color);
             margin-top: 10px;
             padding-top: 10px;
-            color: var(--primary-neon);
             font-size: 1rem;
         }
 
         .save-btn {
             width: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.05));
+            background: transparent;
             color: var(--primary-neon);
             border: 1px solid var(--primary-neon);
             padding: 14px;
@@ -145,7 +150,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            text-transform: uppercase;
         }
         .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
 
@@ -154,45 +158,59 @@
             max-width: 420px;
             padding: 1.5rem;
             background: var(--card-bg);
-            backdrop-filter: blur(5px);
             border-radius: 20px;
             font-size: 0.85rem;
-            line-height: 1.6;
             border: 1px solid var(--border-color);
         }
-        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
 
-        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; }
-        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
-
-        .whatsapp-float {
+        .footer-social {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: #25d366;
-            width: 50px;
-            height: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
             color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
         }
+
+        .icon-fb { background: #1877F2; }
+        .icon-wa { background: #25d366; }
+        
+        /* تناسق الأيقونات مع مود الموقع */
+        [data-theme="light"] .social-icon { border-color: rgba(0,0,0,0.1); }
+
     </style>
 </head>
 <body>
 
 <div class="container" id="calculatorCard">
     <div class="header-actions">
-        <button class="btn-tool" onclick="toggleLang()" id="langBtn">English</button>
-        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div>
+            <button class="btn-tool" onclick="toggleLang()" id="langBtn" style="display:inline-block">EN</button>
+            <button class="btn-tool" onclick="toggleTheme()" id="themeBtn" style="display:inline-block">🌙</button>
+        </div>
+        <button class="btn-tool btn-reset" onclick="resetAll()">
+            <span id="btnResetText">مسح البيانات</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
     </div>
 
     <div class="logo-area">
         <div class="logo-main">FC ESNA 2</div>
-        <div class="logo-sub">Internal Finance Pro</div>
+        <div class="logo-sub" id="logoSub">Finance Calculator</div>
     </div>
 
     <div class="input-group">
@@ -200,9 +218,15 @@
         <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
     </div>
 
-    <div class="input-group">
-        <label id="lblInterest">الفايدة (%)</label>
-        <input type="number" id="interest" placeholder="0" oninput="calculate()">
+    <div class="input-row">
+        <div class="input-group">
+            <label id="lblAdminRate">نسبة المصاريف (%)</label>
+            <input type="number" id="adminRate" value="5" oninput="calculate()">
+        </div>
+        <div class="input-group">
+            <label id="lblInterest">الفايدة (%)</label>
+            <input type="number" id="interest" placeholder="0" oninput="calculate()">
+        </div>
     </div>
 
     <div class="input-group">
@@ -218,10 +242,6 @@
         <div class="result-item">
             <span id="resNetAdmin">الصافي بعد المصاريف:</span>
             <span id="netAfterAdmin">0</span>
-        </div>
-        <div class="result-item" style="opacity: 0.7;">
-            <span id="resInterest">الفايدة الموزعة:</span>
-            <span id="totalInterest">0</span>
         </div>
         <div class="result-item">
             <span id="resInstallment">القسط الشهري (مقرب):</span>
@@ -239,58 +259,39 @@
     </button>
 </div>
 
-<div class="info-box">
-    <h3 id="infoTitle">دليل العمل الداخلي</h3>
-    <ul id="infoList">
-        <li>احتساب <b>5% عمولة إدارية</b> تخصم من أصل المبلغ.</li>
-        <li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
-        <li>الصافي النهائي للمستلم = (المبلغ الصافي - أول قسط).</li>
-    </ul>
+<div class="footer-social">
+    <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" class="social-icon icon-fb" target="_blank">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="social-icon icon-wa" target="_blank">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
+    </a>
 </div>
-
-<div class="footer">
-    Designed & Developed by <a href="#" target="_blank">Osama</a>
-</div>
-
-<a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="whatsapp-float" target="_blank">
-    <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
-</a>
 
 <script>
     const translations = {
         ar: {
-            lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
-            resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
-            resInterest: "الفايدة الموزعة:", resInstallment: "القسط الشهري (مقرب):",
-            resNetTotal: "صافي المستلم النهائي:", btnSave: "تصدير بيانات العملية", langBtn: "English",
-            infoTitle: "دليل العمل الداخلي",
-            infoList: `<li>احتساب <b>5% عمولة إدارية</b> تخصم من أصل المبلغ.</li>
-                       <li>يتم جبر القسط الشهري لأقرب 5 جنيهات.</li>
-                       <li>الصافي النهائي للمستلم = (المبلغ الصافي - أول قسط).</li>`
+            lblAmount: "المبلغ الأساسي", lblAdminRate: "نسبة المصاريف (%)", lblInterest: "الفايدة (%)", 
+            lblMonths: "المدة (بالشهور)", resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
+            resInstallment: "القسط الشهري (مقرب):", resNetTotal: "صافي المستلم النهائي:", 
+            btnSave: "تصدير بيانات العملية", btnResetText: "مسح البيانات", logoSub: "Finance Calculator"
         },
         en: {
-            lblAmount: "Principal Amount", lblInterest: "Interest (%)", lblMonths: "Duration (Months)",
-            resAdmin: "Admin Fees:", resNetAdmin: "Net after Admin:",
-            resInterest: "Distributed Interest:", resInstallment: "Monthly Installment:",
-            resNetTotal: "Final Net Disbursed:", btnSave: "Export Process Data", langBtn: "عربي",
-            infoTitle: "Internal Operations Guide",
-            infoList: `<li><b>5% Admin commission</b> is deducted from principal.</li>
-                       <li>Monthly payment rounded to nearest 5 EGP.</li>
-                       <li>Final Net = (Net Amount - First Installment).</li>`
+            lblAmount: "Principal Amount", lblAdminRate: "Admin Rate (%)", lblInterest: "Interest (%)", 
+            lblMonths: "Months", resAdmin: "Admin Fees:", resNetAdmin: "Net After Fees:",
+            resInstallment: "Monthly (Rounded):", resNetTotal: "Final Net:", 
+            btnSave: "Export Process Data", btnResetText: "Reset", logoSub: "Finance Calculator"
         }
     };
 
     let currentLang = 'ar';
 
-    // التحقق من وضع الجهاز التلقائي عند التحميل
     function initTheme() {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = prefersDark ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', theme);
         document.getElementById('themeBtn').innerText = theme === 'light' ? '☀️' : '🌙';
     }
-
-    // استدعاء المود التلقائي
     initTheme();
 
     function toggleTheme() {
@@ -303,6 +304,7 @@
     function toggleLang() {
         currentLang = currentLang === 'ar' ? 'en' : 'ar';
         document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
         for (let key in translations[currentLang]) {
             const el = document.getElementById(key);
             if (el) el.innerHTML = translations[currentLang][key];
@@ -311,10 +313,11 @@
 
     function calculate() {
         const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const adminRate = parseFloat(document.getElementById('adminRate').value) || 0;
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
         const months = parseInt(document.getElementById('months').value) || 0;
 
-        const adminFee = amount * 0.05;
+        const adminFee = amount * (adminRate / 100);
         const netAfterAdmin = amount - adminFee;
         const totalInterest = amount * (interestRate / 100) * (months / 12);
         const rawMonthlyPayment = months > 0 ? (amount + totalInterest) / months : 0;
@@ -323,9 +326,16 @@
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
         document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
-        document.getElementById('totalInterest').innerText = totalInterest.toLocaleString();
         document.getElementById('monthlyPayment').innerText = roundedMonthlyPayment.toLocaleString();
         document.getElementById('netAmount').innerText = (netAmount > 0 ? Math.floor(netAmount) : 0).toLocaleString();
+    }
+
+    function resetAll() {
+        document.getElementById('amount').value = '';
+        document.getElementById('interest').value = '';
+        document.getElementById('months').value = '';
+        document.getElementById('adminRate').value = '5';
+        calculate();
     }
 
     async function downloadImage() {
@@ -335,7 +345,7 @@
             scale: 2
         });
         const link = document.createElement('a');
-        link.download = `FC-Operation-${Date.now()}.png`;
+        link.download = `FC-Export-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     }
