@@ -3,39 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FC ESNA 2 - Finance Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>FC ESNA 2 - Finance Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* Dark Mode (Default) */
-            --bg-gradient: radial-gradient(circle at top right, #0f172a, #020617);
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-color: #f1f5f9;
-            --input-bg: rgba(15, 23, 42, 0.6);
-            --primary-accent: #38bdf8;
-            --secondary-accent: #818cf8;
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --bg-color: #020617;
+            --card-bg: rgba(15, 23, 42, 0.8); /* تم جعلها زجاجية قليلاً */
+            --text-color: #f8fafc;
+            --input-bg: rgba(30, 41, 59, 0.7);
+            --primary-neon: #00f2ff;
+            --secondary-neon: #7000ff;
+            --border-color: rgba(0, 242, 255, 0.2);
+            --glow: 0 0 15px rgba(0, 242, 255, 0.2);
         }
 
         [data-theme="light"] {
-            --bg-gradient: radial-gradient(circle at top right, #f1f5f9, #e2e8f0);
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(0, 0, 0, 0.05);
+            --bg-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.85); /* زجاجية خفيفة للمود الفاتح */
             --text-color: #1e293b;
-            --input-bg: rgba(241, 245, 249, 0.8);
-            --primary-accent: #0284c7;
-            --secondary-accent: #4f46e5;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --input-bg: #f1f5f9;
+            --primary-neon: #0ea5e9;
+            --secondary-neon: #6366f1;
+            --border-color: #e2e8f0;
+            --glow: 0 0 10px rgba(14, 165, 233, 0.1);
         }
 
-        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             display: flex;
@@ -43,137 +41,142 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            /* إضافة خلفية انسيابية خفيفة */
+            background-image: radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.05) 0%, transparent 50%);
         }
 
         .container {
             width: 100%;
             max-width: 420px;
-            padding: 2.5rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
+            padding: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px); /* تأثير الزجاج */
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--glow);
+            margin-bottom: 20px;
         }
 
-        .header-actions { display: flex; justify-content: space-between; margin-bottom: 2rem; }
+        .header-actions { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
 
         .btn-tool {
             background: var(--input-bg);
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--border-color);
             color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 12px;
+            padding: 8px 14px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
         }
-        .btn-tool:hover { transform: translateY(-2px); background: var(--primary-accent); color: white; }
 
         .logo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
             text-align: center;
-            margin-bottom: 2rem;
         }
 
         .logo-main {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            color: var(--primary-neon);
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-shadow: var(--glow);
         }
 
         .logo-sub {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-color);
             opacity: 0.6;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
         }
 
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; opacity: 0.9; }
-        
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
         input {
             width: 100%;
-            padding: 14px;
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
             background: var(--input-bg);
             color: var(--text-color);
             outline: none;
             font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
         }
-        input:focus { border-color: var(--primary-accent); ring: 2px solid var(--primary-accent); }
+        input:focus { border-color: var(--primary-neon); box-shadow: var(--glow); }
 
         .results {
-            margin-top: 2rem;
-            padding: 20px;
+            margin-top: 1.5rem;
+            padding: 15px;
             background: rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
 
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
-        .result-item span:last-child { font-weight: 700; color: var(--primary-accent); }
+        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
         
         .result-item.highlight {
-            border-top: 1px solid var(--glass-border);
-            margin-top: 15px;
-            padding-top: 15px;
-            font-size: 1.1rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 10px;
+            color: var(--primary-neon);
+            font-size: 1rem;
         }
-        .result-item.highlight span:last-child { color: var(--secondary-accent); }
 
         .save-btn {
             width: 100%;
-            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
-            color: white;
-            border: none;
-            padding: 15px;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.05));
+            color: var(--primary-neon);
+            border: 1px solid var(--primary-neon);
+            padding: 14px;
             border-radius: 15px;
-            font-weight: 700;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
         }
-        .save-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
 
         .info-box {
             width: 100%;
             max-width: 420px;
             padding: 1.5rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
             border-radius: 20px;
             font-size: 0.85rem;
-            border: 1px solid var(--glass-border);
+            line-height: 1.6;
+            border: 1px solid var(--border-color);
         }
-        .info-box h3 { margin-top: 0; color: var(--primary-accent); }
+        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
 
-        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.6; }
-        .footer a { color: var(--primary-accent); text-decoration: none; }
+        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; }
+        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
 
         .whatsapp-float {
             position: fixed;
-            bottom: 25px;
-            left: 25px;
+            bottom: 20px;
+            left: 20px;
             background: #25d366;
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 1000;
             color: white;
         }
@@ -184,7 +187,7 @@
 <div class="container" id="calculatorCard">
     <div class="header-actions">
         <button class="btn-tool" onclick="toggleLang()" id="langBtn">English</button>
-        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌓</button>
+        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
 
     <div class="logo-area">
@@ -216,13 +219,13 @@
             <span id="resNetAdmin">الصافي بعد المصاريف:</span>
             <span id="netAfterAdmin">0</span>
         </div>
-        <div class="result-item">
-            <span id="resInterest">إجمالي الفوائد:</span>
+        <div class="result-item" style="opacity: 0.7;">
+            <span id="resInterest">الفايدة الموزعة:</span>
             <span id="totalInterest">0</span>
         </div>
         <div class="result-item">
-            <span id="resInstallment">القسط (مقرب لـ 5):</span>
-            <span id="monthlyPayment">0</span>
+            <span id="resInstallment">القسط الشهري (مقرب):</span>
+            <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span>
         </div>
         <div class="result-item highlight">
             <span id="resNetTotal">صافي المستلم النهائي:</span>
@@ -231,27 +234,26 @@
     </div>
 
     <button class="save-btn" onclick="downloadImage()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span id="btnSave">تصدير ملخص العملية</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span id="btnSave">تصدير بيانات العملية</span>
     </button>
 </div>
 
 <div class="info-box">
-    <h3 id="infoTitle">قواعد الحساب الداخلية</h3>
+    <h3 id="infoTitle">دليل العمل الداخلي</h3>
     <ul id="infoList">
-        <li>عمولة إدارية ثابتة <b>5%</b> تخصم من أصل المبلغ.</li>
-        <li>حساب الفوائد يتم بنظام الفائدة البسيطة (Simple Interest).</li>
-        <li>يتم جبر القسط دائماً <b>لأعلى</b> لأقرب 5 جنيهات.</li>
-        <li>الصافي النهائي = (أصل المبلغ - المصاريف الإدارية) - أول قسط.</li>
+        <li>احتساب <b>5% عمولة إدارية</b> تخصم من أصل المبلغ.</li>
+        <li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
+        <li>الصافي النهائي للمستلم = (المبلغ الصافي - أول قسط).</li>
     </ul>
 </div>
 
 <div class="footer">
-    System Architecture by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
+    Designed & Developed by <a href="#" target="_blank">Osama</a>
 </div>
 
 <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="whatsapp-float" target="_blank">
-    <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
 </a>
 
 <script>
@@ -259,45 +261,43 @@
         ar: {
             lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
             resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
-            resInterest: "إجمالي الفوائد:", resInstallment: "القسط (مقرب لـ 5):",
-            resNetTotal: "صافي المستلم النهائي:", btnSave: "تصدير ملخص العملية", langBtn: "English",
-            infoTitle: "قواعد الحساب الداخلية",
-            infoList: `<li>عمولة إدارية ثابتة <b>5%</b> تخصم من أصل المبلغ.</li>
-                       <li>حساب الفوائد يتم بنظام الفائدة البسيطة.</li>
-                       <li>يتم جبر القسط دائماً <b>لأعلى</b> لأقرب 5 جنيهات.</li>
-                       <li>الصافي النهائي = (أصل المبلغ - المصاريف الإدارية) - أول قسط.</li>`
+            resInterest: "الفايدة الموزعة:", resInstallment: "القسط الشهري (مقرب):",
+            resNetTotal: "صافي المستلم النهائي:", btnSave: "تصدير بيانات العملية", langBtn: "English",
+            infoTitle: "دليل العمل الداخلي",
+            infoList: `<li>احتساب <b>5% عمولة إدارية</b> تخصم من أصل المبلغ.</li>
+                       <li>يتم جبر القسط الشهري لأقرب 5 جنيهات.</li>
+                       <li>الصافي النهائي للمستلم = (المبلغ الصافي - أول قسط).</li>`
         },
         en: {
-            lblAmount: "Principal Amount", lblInterest: "Interest Rate (%)", lblMonths: "Duration (Months)",
-            resAdmin: "Admin Commission:", resNetAdmin: "Net After Admin:",
-            resInterest: "Total Interest:", resInstallment: "Installment (Round 5):",
-            resNetTotal: "Final Net Disbursed:", btnSave: "Export Summary", langBtn: "عربي",
-            infoTitle: "Internal Calculation Rules",
-            infoList: `<li>Fixed <b>5% Admin fee</b> deducted from principal.</li>
-                       <li>Simple interest calculation applied.</li>
-                       <li>Installment <b>rounded up</b> to nearest 5.</li>
-                       <li>Final Net = (Principal - Admin) - First Installment.</li>`
+            lblAmount: "Principal Amount", lblInterest: "Interest (%)", lblMonths: "Duration (Months)",
+            resAdmin: "Admin Fees:", resNetAdmin: "Net after Admin:",
+            resInterest: "Distributed Interest:", resInstallment: "Monthly Installment:",
+            resNetTotal: "Final Net Disbursed:", btnSave: "Export Process Data", langBtn: "عربي",
+            infoTitle: "Internal Operations Guide",
+            infoList: `<li><b>5% Admin commission</b> is deducted from principal.</li>
+                       <li>Monthly payment rounded to nearest 5 EGP.</li>
+                       <li>Final Net = (Net Amount - First Installment).</li>`
         }
     };
 
     let currentLang = 'ar';
 
-    // التبديل التلقائي حسب وضع الجهاز
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    function setTheme(isDark) {
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    // التحقق من وضع الجهاز التلقائي عند التحميل
+    function initTheme() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = prefersDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.getElementById('themeBtn').innerText = theme === 'light' ? '☀️' : '🌙';
     }
 
-    // تشغيل الوضع التلقائي عند التحميل
-    setTheme(prefersDark.matches);
-
-    // الاستماع لتغيير وضع الجهاز أثناء الاستخدام
-    prefersDark.addEventListener('change', e => setTheme(e.matches));
+    // استدعاء المود التلقائي
+    initTheme();
 
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
-        setTheme(currentTheme !== 'dark');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        document.getElementById('themeBtn').innerText = newTheme === 'light' ? '☀️' : '🌙';
     }
 
     function toggleLang() {
@@ -331,12 +331,11 @@
     async function downloadImage() {
         const card = document.getElementById('calculatorCard');
         const canvas = await html2canvas(card, {
-            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-gradient'),
-            scale: 2,
-            useCORS: true
+            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-color'),
+            scale: 2
         });
         const link = document.createElement('a');
-        link.download = `FC-ESNA-Summary-${Date.now()}.png`;
+        link.download = `FC-Operation-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     }
