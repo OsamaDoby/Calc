@@ -57,7 +57,7 @@
         }
 
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .controls-left { display: flex; gap: 8px; } /* لضمان بقائهم جنب بعض */
+        .controls-left { display: flex; gap: 8px; }
 
         .btn-tool {
             background: var(--input-bg);
@@ -110,7 +110,6 @@
             background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1rem;
         }
 
-        /* المؤشرات الذكية */
         .smart-indicators {
             margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-color);
         }
@@ -154,7 +153,7 @@
             <button class="btn-tool" onclick="toggleLang()" id="langBtn">EN</button>
             <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
-        <button class="btn-tool btn-reset" onclick="resetAll()">مسح</button>
+        <button class="btn-tool btn-reset" id="resetBtn" onclick="resetAll()">مسح</button>
     </div>
 
     <div class="logo-area">
@@ -163,46 +162,46 @@
     </div>
 
     <div class="input-group">
-        <label>المبلغ الأساسي</label>
+        <label id="lblAmount">المبلغ الأساسي</label>
         <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
     </div>
 
     <div class="input-row">
         <div class="input-group">
-            <label>المصاريف الإدارية (%)</label>
+            <label id="lblAdminRate">المصاريف الإدارية (%)</label>
             <input type="number" id="adminRate" value="5" oninput="calculate()">
         </div>
         <div class="input-group">
-            <label>الفايدة (%)</label>
+            <label id="lblInterest">الفايدة (%)</label>
             <input type="number" id="interest" placeholder="0" oninput="calculate()">
         </div>
     </div>
 
     <div class="input-group">
-        <label>المدة (بالشهور)</label>
+        <label id="lblMonths">المدة (بالشهور)</label>
         <input type="number" id="months" placeholder="0" oninput="calculate()">
     </div>
 
     <div class="smart-indicators">
         <div class="indicator-item">
-            <div class="indicator-label"><span>إجمالي الربح (فوائد + مصاريف)</span><span id="profitVal">0</span></div>
+            <div class="indicator-label"><span id="lblProfitInd">إجمالي الربح (فوائد + مصاريف)</span><span id="profitVal">0</span></div>
             <div class="indicator-bar"><div id="profitFill" class="indicator-fill" style="background: #22c55e;"></div></div>
         </div>
         <div class="indicator-item">
-            <div class="indicator-label"><span>مستوى مخاطرة القسط</span><span id="riskText">آمن</span></div>
+            <div class="indicator-label"><span id="lblRiskInd">مستوى مخاطرة القسط</span><span id="riskText">آمن</span></div>
             <div class="indicator-bar"><div id="riskFill" class="indicator-fill"></div></div>
         </div>
     </div>
 
     <div class="results">
-        <div class="result-item"><span>المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
-        <div class="result-item"><span>الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
-        <div class="result-item"><span>إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
-        <div class="result-item"><span>القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
-        <div class="result-item highlight"><span>صافي المستلم النهائي:</span> <span id="netAmount">0</span></div>
+        <div class="result-item"><span id="resAdmin">المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
+        <div class="result-item"><span id="resNetAfter">الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
+        <div class="result-item"><span id="resTotalInt">إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
+        <div class="result-item"><span id="resMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
+        <div class="result-item highlight"><span id="resFinal">صافي المستلم النهائي:</span> <span id="netAmount">0</span></div>
     </div>
 
-    <button class="save-btn" onclick="downloadImage()">تصدير بيانات العملية</button>
+    <button class="save-btn" id="saveBtn" onclick="downloadImage()">تصدير بيانات العملية</button>
 </div>
 
 <div class="info-box">
@@ -228,14 +227,82 @@
 </div>
 
 <script>
+    // 1. نظام الثيم الذكي: الكشف عن مود الجهاز + تبديل الزرار
+    function initTheme() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+        const finalTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+        
+        document.documentElement.setAttribute('data-theme', finalTheme);
+        document.getElementById('themeBtn').innerText = finalTheme === 'light' ? '☀️' : '🌙';
+    }
+
     function toggleTheme() {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
         document.getElementById('themeBtn').innerText = next === 'light' ? '☀️' : '🌙';
     }
 
+    // 2. نظام اللغة
+    function toggleLang() {
+        const html = document.documentElement;
+        const currentLang = html.getAttribute('lang');
+        const isAr = currentLang === 'ar';
+
+        if (isAr) {
+            html.setAttribute('lang', 'en');
+            html.setAttribute('dir', 'ltr');
+            document.getElementById('langBtn').innerText = 'AR';
+            updateTexts('en');
+        } else {
+            html.setAttribute('lang', 'ar');
+            html.setAttribute('dir', 'rtl');
+            document.getElementById('langBtn').innerText = 'EN';
+            updateTexts('ar');
+        }
+    }
+
+    function updateTexts(lang) {
+        const texts = {
+            ar: {
+                reset: "مسح", amount: "المبلغ الأساسي", admin: "المصاريف الإدارية (%)", interest: "الفايدة (%)",
+                months: "المدة (بالشهور)", pInd: "إجمالي الربح (فوائد + مصاريف)", rInd: "مستوى مخاطرة القسط",
+                resAdmin: "المصاريف الإدارية:", resNet: "الصافي بعد المصاريف:", resInt: "إجمالي الفائدة:",
+                resMonth: "القسط الشهري (مقرب):", resFinal: "صافي المستلم النهائي:", save: "تصدير بيانات العملية",
+                infoT: "دليل الاستخدام", infoL: `<li>يتم احتساب المصاريف الإدارية وتخصم من أصل المبلغ.</li><li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li><li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li><li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
+            },
+            en: {
+                reset: "Reset", amount: "Principal Amount", admin: "Admin Fees (%)", interest: "Interest (%)",
+                months: "Duration (Months)", pInd: "Total Profit (Interest + Admin)", rInd: "Payment Risk Level",
+                resAdmin: "Admin Fees:", resNet: "Net After Admin:", resInt: "Total Interest:",
+                resMonth: "Monthly Payment:", resFinal: "Final Net Received:", save: "Export Transaction Data",
+                infoT: "User Guide", infoL: `<li>Admin fees are calculated and deducted from the principal.</li><li>Monthly payment is rounded to the nearest 5 for easy collection.</li><li><b>Profit Indicator:</b> Combines admin fees and total interest.</li><li>Final net is the amount after deducting admin fees and the first installment.</li>`
+            }
+        };
+
+        const t = texts[lang];
+        document.getElementById('resetBtn').innerText = t.reset;
+        document.getElementById('lblAmount').innerText = t.amount;
+        document.getElementById('lblAdminRate').innerText = t.admin;
+        document.getElementById('lblInterest').innerText = t.interest;
+        document.getElementById('lblMonths').innerText = t.months;
+        document.getElementById('lblProfitInd').innerText = t.pInd;
+        document.getElementById('lblRiskInd').innerText = t.rInd;
+        document.getElementById('resAdmin').innerText = t.resAdmin;
+        document.getElementById('resNetAfter').innerText = t.resNet;
+        document.getElementById('resTotalInt').innerText = t.resInt;
+        document.getElementById('resMonthly').innerText = t.resMonth;
+        document.getElementById('resFinal').innerText = t.resFinal;
+        document.getElementById('saveBtn').innerText = t.save;
+        document.getElementById('infoTitle').innerText = t.infoT;
+        document.getElementById('infoList').innerHTML = t.infoL;
+        calculate(); // تحديث الحسابات لتغيير كلمات مثل "آمن"
+    }
+
     function calculate() {
+        const isAr = document.documentElement.getAttribute('lang') === 'ar';
         const amount = parseFloat(document.getElementById('amount').value) || 0;
         const adminRate = parseFloat(document.getElementById('adminRate').value) || 0;
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
@@ -254,21 +321,26 @@
         document.getElementById('monthlyPayment').innerText = roundedMonthly.toLocaleString();
         document.getElementById('netAmount').innerText = Math.max(0, Math.floor(netFinal)).toLocaleString();
 
-        // مؤشر الربح
         const totalProfit = adminFee + (roundedMonthly * months - amount);
         document.getElementById('profitVal').innerText = Math.max(0, Math.floor(totalProfit)).toLocaleString();
         const pPercent = amount > 0 ? Math.min((totalProfit / amount) * 100, 100) : 0;
         document.getElementById('profitFill').style.width = pPercent + '%';
 
-        // مؤشر المخاطر
         const riskRatio = amount > 0 ? (roundedMonthly / amount) * 100 : 0;
         const riskFill = document.getElementById('riskFill');
         const riskT = document.getElementById('riskText');
         riskFill.style.width = Math.min(riskRatio * 5, 100) + '%';
 
-        if (riskRatio < 10) { riskFill.style.background = '#22c55e'; riskT.innerText = 'آمن'; }
-        else if (riskRatio < 20) { riskFill.style.background = '#f59e0b'; riskT.innerText = 'متوسط'; }
-        else { riskFill.style.background = '#ef4444'; riskT.innerText = 'عالٍ'; }
+        if (riskRatio < 10) { 
+            riskFill.style.background = '#22c55e'; 
+            riskT.innerText = isAr ? 'آمن' : 'Safe'; 
+        } else if (riskRatio < 20) { 
+            riskFill.style.background = '#f59e0b'; 
+            riskT.innerText = isAr ? 'متوسط' : 'Medium'; 
+        } else { 
+            riskFill.style.background = '#ef4444'; 
+            riskT.innerText = isAr ? 'عالٍ' : 'High'; 
+        }
     }
 
     function resetAll() {
@@ -281,12 +353,19 @@
 
     async function downloadImage() {
         const card = document.getElementById('calculatorCard');
-        const canvas = await html2canvas(card, { backgroundColor: '#020617', scale: 2 });
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const canvas = await html2canvas(card, { 
+            backgroundColor: isDark ? '#020617' : '#f8fafc', 
+            scale: 2 
+        });
         const link = document.createElement('a');
         link.download = `FC-Op-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     }
+
+    // تشغيل نظام الثيم عند التحميل
+    initTheme();
 </script>
 </body>
 </html>
