@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FC ESNA 2 - Pro Finance</title>
+    <title>FC ESNA 2 - Finance Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -45,17 +45,16 @@
 
         .container {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             padding: 2rem;
             background: var(--card-bg);
             border-radius: 25px;
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
             margin-bottom: 20px;
-            position: relative;
         }
 
-        .header-actions { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .header-actions { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
 
         .btn-tool {
             background: var(--input-bg);
@@ -67,6 +66,7 @@
             font-size: 0.8rem;
         }
 
+        /* --- تعديل اللوجو الجديد --- */
         .logo-area {
             display: flex;
             flex-direction: column;
@@ -77,7 +77,7 @@
         }
 
         .logo-main {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--primary-neon);
             letter-spacing: 1px;
@@ -91,97 +91,98 @@
             color: var(--text-color);
             opacity: 0.6;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
         }
+        /* ----------------------- */
 
-        .invoice-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            margin-bottom: 15px;
-            padding: 5px 10px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-
-        .input-group { margin-bottom: 0.8rem; }
-        label { display: block; margin-bottom: 4px; font-size: 0.8rem; opacity: 0.8; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; }
         input {
             width: 100%;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             background: var(--input-bg);
             color: var(--text-color);
             outline: none;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
         input:focus { border-color: var(--primary-neon); box-shadow: var(--glow); }
 
         .results {
-            margin-top: 1.2rem;
+            margin-top: 1.5rem;
             padding: 15px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             border: 1px solid var(--border-color);
         }
 
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; align-items: center; }
-        .result-item .val { color: var(--primary-neon); font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
         
-        .copy-icon { cursor: pointer; opacity: 0.5; font-size: 0.8rem; }
-        .copy-icon:hover { opacity: 1; color: var(--primary-neon); }
-
-        .highlight {
+        .result-item.highlight {
             border-top: 1px solid var(--border-color);
             margin-top: 10px;
             padding-top: 10px;
             color: var(--primary-neon);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        .action-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 1.5rem;
-        }
-
-        .btn-main {
+        .save-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--primary-neon);
+            border: 1px solid var(--primary-neon);
             padding: 12px;
             border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+        }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: var(--glow); }
+
+        .info-box {
+            width: 100%;
+            max-width: 420px;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
             font-size: 0.85rem;
-            border: 1px solid var(--primary-neon);
-            background: transparent;
-            color: var(--primary-neon);
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
+        .info-box ul { padding-right: 20px; margin-bottom: 0; }
 
-        .btn-main:hover { background: var(--primary-neon); color: #000; }
-        .btn-whatsapp { border-color: #25d366; color: #25d366; }
-        .btn-whatsapp:hover { background: #25d366; color: #fff; }
+        .footer { margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; }
+        .footer a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
 
-        .schedule-box {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 10px;
-        }
-
-        .footer { margin: 1.5rem 0; font-size: 0.8rem; opacity: 0.7; }
         .whatsapp-float {
-            position: fixed; bottom: 20px; left: 20px;
-            background: #25d366; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; z-index: 1000; color: white;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #25d366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            color: white;
         }
+
+        body.en .whatsapp-float { left: auto; right: 20px; }
+        body.en { direction: ltr; }
     </style>
 </head>
-<body onload="setCurrentDate()">
+<body>
 
 <div class="container" id="calculatorCard">
     <div class="header-actions">
@@ -192,16 +193,6 @@
     <div class="logo-area">
         <div class="logo-main">FC ESNA 2</div>
         <div class="logo-sub">Finance Calculator</div>
-    </div>
-
-    <div class="invoice-info">
-        <span id="invDate">التاريخ: --/--/----</span>
-        <span id="invNo">رقم: #6622</span>
-    </div>
-
-    <div class="input-group">
-        <label id="lblClient">اسم العميل</label>
-        <input type="text" id="clientName" placeholder="اختياري..." oninput="calculate()">
     </div>
 
     <div class="input-group">
@@ -221,64 +212,78 @@
 
     <div class="results">
         <div class="result-item">
-            <span id="resAdmin">المصاريف الإدارية (5%):</span>
-            <span class="val" id="adminFee">0</span>
+            <span id="resAdmin">المصاريف الإدارية:</span>
+            <span id="adminFee">0</span>
         </div>
         <div class="result-item">
-            <span id="resInstallment">القسط الشهري:</span>
-            <span class="val">
-                <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span>
-                <span class="copy-icon" onclick="copyText('monthlyPayment')">📋</span>
-            </span>
+            <span id="resNetAdmin">الصافي بعد المصاريف:</span>
+            <span id="netAfterAdmin">0</span>
+        </div>
+        <div class="result-item" style="opacity: 0.7;">
+            <span id="resInterest">الفايدة الموزعة:</span>
+            <span id="totalInterest">0</span>
+        </div>
+        <div class="result-item">
+            <span id="resInstallment">القسط الشهري (مقرب):</span>
+            <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span>
         </div>
         <div class="result-item highlight">
             <span id="resNetTotal">صافي المستلم النهائي:</span>
-            <span class="val" id="netAmount">0</span>
-        </div>
-        
-        <div class="schedule-box" id="scheduleArea">
-            <b id="lblSched">تنبيه المواعيد:</b>
-            <div id="firstInstallmentDate" style="opacity:0.8; margin-top:5px;">ادخل البيانات لعرض المواعيد...</div>
+            <span id="netAmount">0</span>
         </div>
     </div>
 
-    <div class="action-btns">
-        <button class="btn-main" onclick="downloadImage()">
-            <span id="btnSave">تحميل الصورة</span>
-        </button>
-        <button class="btn-main btn-whatsapp" onclick="sendWhatsApp()">
-            <span>واتساب</span>
-        </button>
-    </div>
+    <button class="save-btn" onclick="downloadImage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span id="btnSave">تحميل فاتورة العميل</span>
+    </button>
+</div>
+
+<div class="info-box">
+    <h3 id="infoTitle">دليل الإستخدام ومعلومات هامة</h3>
+    <ul id="infoList">
+        <li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
+        <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
+        <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
+        <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
+    </ul>
 </div>
 
 <div class="footer">
-    Designed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
+    Designed & Developed by <a href="https://www.facebook.com/share/18TtS2GVNi/?mibextid=wwXIfr" target="_blank">Osama</a>
 </div>
+
+<a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="whatsapp-float" target="_blank">
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.965L0 16l4.232-1.11a7.839 7.839 0 0 0 3.758.955h.001c4.438 0 8.044-3.606 8.048-8.046a7.848 7.848 0 0 0-2.438-5.473l-.001-.001ZM10.582 13.074c-1.023.36-2.148.165-3.18-.35l-.247-.122-2.51.659.67-2.44-.134-.213a6.71 6.71 0 0 1-1.03-3.51c0-3.712 3.023-6.735 6.737-6.735 1.8 0 3.49.7 4.76 1.97a6.69 6.69 0 0 1 1.97 4.76c0 3.712-3.024 6.736-6.74 6.736l-.003-.001Z"/></svg>
+</a>
 
 <script>
     const translations = {
         ar: {
-            lblClient: "اسم العميل", lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
-            resAdmin: "المصاريف الإدارية (5%):", resInstallment: "القسط الشهري:",
-            resNetTotal: "صافي المستلم النهائي:", btnSave: "تحميل الصورة", langBtn: "English",
-            lblSched: "تنبيه المواعيد:"
+            lblAmount: "المبلغ الأساسي", lblInterest: "الفايدة (%)", lblMonths: "المدة (بالشهور)",
+            resAdmin: "المصاريف الإدارية:", resNetAdmin: "الصافي بعد المصاريف:",
+            resInterest: "الفايدة الموزعة:", resInstallment: "القسط الشهري (مقرب):",
+            resNetTotal: "صافي المستلم النهائي:", btnSave: "تحميل فاتورة العميل", langBtn: "English",
+            infoTitle: "دليل الإستخدام ومعلومات هامة",
+            infoList: `<li>يتم احتساب <b>5% مصاريف إدارية</b> تخصم من المبلغ الأساسي.</li>
+                       <li>الفايدة تُحسب بنظام الفائدة البسيطة الموزعة على عدد الشهور.</li>
+                       <li><b>التقريب:</b> يتم جبر القسط الشهري لأقرب 5 جنيهات.</li>
+                       <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
         },
         en: {
-            lblClient: "Client Name", lblAmount: "Principal Amount", lblInterest: "Interest (%)", lblMonths: "Months",
-            resAdmin: "Admin Fees (5%):", resInstallment: "Monthly Payment:",
-            resNetTotal: "Final Net Disbursed:", btnSave: "Download Image", langBtn: "عربي",
-            lblSched: "Due Dates Hint:"
+            lblAmount: "Principal Amount", lblInterest: "Interest Rate (%)", lblMonths: "Duration (Months)",
+            resAdmin: "Admin Fees:", resNetAdmin: "Net after Admin Fees:",
+            resInterest: "Distributed Interest:", resInstallment: "Monthly Payment (Rounded):",
+            resNetTotal: "Final Net Disbursed:", btnSave: "Download Client Invoice", langBtn: "عربي",
+            infoTitle: "User Guide & Important Info",
+            infoList: `<li><b>5% Admin fees</b> are deducted from the principal.</li>
+                       <li>Interest is calculated as simple interest over months.</li>
+                       <li><b>Rounding:</b> Monthly payment is rounded up to nearest 5 EGP.</li>
+                       <li>Final Net is amount minus admin fees and first installment.</li>`
         }
     };
 
     let currentLang = 'ar';
-
-    function setCurrentDate() {
-        const today = new Date();
-        const dateStr = today.toLocaleDateString('ar-EG');
-        document.getElementById('invDate').innerText = `التاريخ: ${dateStr}`;
-    }
 
     function toggleTheme() {
         const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -292,9 +297,8 @@
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         for (let key in translations[currentLang]) {
             const el = document.getElementById(key);
-            if (el) el.innerText = translations[currentLang][key];
+            if (el) el.innerHTML = translations[currentLang][key];
         }
-        calculate();
     }
 
     function calculate() {
@@ -310,35 +314,10 @@
         const netAmount = amount > 0 ? (netAfterAdmin - roundedMonthlyPayment) : 0;
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
+        document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
+        document.getElementById('totalInterest').innerText = totalInterest.toLocaleString();
         document.getElementById('monthlyPayment').innerText = roundedMonthlyPayment.toLocaleString();
         document.getElementById('netAmount').innerText = (netAmount > 0 ? Math.floor(netAmount) : 0).toLocaleString();
-
-        // تحديث جدول المواعيد
-        if(months > 0) {
-            const nextMonth = new Date();
-            nextMonth.setMonth(nextMonth.getMonth() + 1);
-            const dateOptions = { month: 'long', day: 'numeric' };
-            document.getElementById('firstInstallmentDate').innerText = 
-                currentLang === 'ar' ? `استحقاق أول قسط: ${nextMonth.toLocaleDateString('ar-EG', dateOptions)}` 
-                : `First Installment: ${nextMonth.toLocaleDateString('en-US', dateOptions)}`;
-        }
-    }
-
-    function copyText(id) {
-        const val = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(val);
-        alert(currentLang === 'ar' ? "تم النسخ!" : "Copied!");
-    }
-
-    function sendWhatsApp() {
-        const name = document.getElementById('clientName').value || "عميلنا العزيز";
-        const amount = document.getElementById('amount').value;
-        const installment = document.getElementById('monthlyPayment').innerText;
-        const months = document.getElementById('months').value;
-        
-        const text = `مرحباً ${name},\nتفاصيل الحسبة من FC ESNA 2:\n- المبلغ: ${amount} ج.م\n- القسط الشهري: ${installment} ج.م\n- لمدة: ${months} شهر\nشكراً لتعاملكم معنا!`;
-        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
     }
 
     async function downloadImage() {
@@ -348,7 +327,7 @@
             scale: 2
         });
         const link = document.createElement('a');
-        link.download = `Invoice-${document.getElementById('clientName').value || 'Client'}.png`;
+        link.download = 'Client-Invoice.png';
         link.href = canvas.toDataURL();
         link.click();
     }
