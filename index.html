@@ -30,7 +30,7 @@
             --glow: 0 0 10px rgba(14, 165, 233, 0.1);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             font-family: 'Cairo', 'Poppins', sans-serif;
@@ -50,16 +50,14 @@
             padding: 2rem;
             background: var(--card-bg);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border-radius: 25px;
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
             margin-bottom: 20px;
+            position: relative;
         }
 
-        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .controls-left { display: flex; gap: 8px; }
-
+        /* مؤثرات الهيدر */
         .btn-tool {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -67,86 +65,100 @@
             padding: 8px 14px;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-tool:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,242,255,0.2); border-color: var(--primary-neon); }
+
+        .btn-reset:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+        /* حركة اسم الموقع */
+        .logo-main {
+            font-size: 2.2rem; font-weight: 800; color: var(--primary-neon);
+            animation: neon-pulse 2s infinite alternate; letter-spacing: 2px;
+            text-align: center;
+        }
+        @keyframes neon-pulse {
+            from { text-shadow: 0 0 5px var(--primary-neon); transform: scale(1); }
+            to { text-shadow: 0 0 20px var(--primary-neon), 0 0 30px var(--primary-neon); transform: scale(1.05); }
         }
 
-        .btn-reset { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; }
-
-        .logo-area { text-align: center; margin-bottom: 1.5rem; }
-        .logo-main { font-size: 2rem; font-weight: 800; color: var(--primary-neon); letter-spacing: 2px; }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
+        /* مدخلات متفاعلة */
         input {
             width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none;
         }
+        input:focus { border-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); transform: scale(1.02); }
 
-        .smart-indicators {
-            margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-color);
+        /* مؤشرات ذكية */
+        .smart-indicators { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-color); }
+        .indicator-bar { height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+        .indicator-fill { height: 100%; width: 0%; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        /* نتائج وحسابات */
+        .results { margin-top: 1.5rem; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 15px; border: 1px solid var(--border-color); }
+        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; text-shadow: 0 0 5px var(--primary-neon); }
+
+        /* أزرار الأكشن */
+        .action-btn {
+            width: 100%; background: transparent; padding: 14px; border-radius: 15px; font-weight: bold; 
+            cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .indicator-item { margin-bottom: 10px; }
-        .indicator-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; }
-        .indicator-bar { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
-        .indicator-fill { height: 100%; width: 0%; transition: width 0.6s ease; }
+        .save-btn { color: var(--primary-neon); border: 1px solid var(--primary-neon); }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: 0 0 25px var(--primary-neon); }
+        
+        .share-btn { color: var(--secondary-neon); border: 1px solid var(--secondary-neon); }
+        .share-btn:hover { background: var(--secondary-neon); color: white; box-shadow: 0 0 25px var(--secondary-neon); }
 
-        .results {
-            margin-top: 1.5rem; padding: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 15px; border: 1px solid var(--border-color);
-        }
-
-        .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
-        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
-        .result-item.highlight { border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1rem; }
-
-        .save-btn, .share-btn {
-            width: 100%; background: transparent; color: var(--primary-neon); border: 1px solid var(--primary-neon);
-            padding: 14px; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 1rem;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .share-btn { border-color: var(--secondary-neon); color: var(--secondary-neon); }
-
+        /* دليل الاستخدام */
         .info-box {
             width: 100%; max-width: 420px; padding: 1.5rem; background: var(--card-bg); border-radius: 20px;
-            font-size: 0.85rem; line-height: 1.6; border: 1px solid var(--border-color); margin-bottom: 30px;
+            border: 1px solid var(--border-color); margin-bottom: 25px;
         }
 
-        .dev-signature { margin-bottom: 30px; font-size: 0.9rem; font-family: 'Poppins'; }
-        .dev-signature span { color: var(--primary-neon); font-weight: 700; }
+        /* توقيع أسامة النيون */
+        .dev-signature {
+            font-family: 'Poppins'; font-size: 1rem; margin-bottom: 20px; letter-spacing: 1px;
+        }
+        .dev-signature span { 
+            color: var(--primary-neon); font-weight: 800; 
+            animation: glow-text 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow-text {
+            from { text-shadow: 0 0 5px var(--primary-neon); }
+            to { text-shadow: 0 0 15px var(--primary-neon), 0 0 20px var(--secondary-neon); }
+        }
 
-        .footer-social-row { display: flex; gap: 15px; margin-bottom: 40px; }
+        /* أيقونات السوشيال ميديا في صف واحد */
+        .social-footer { display: flex; gap: 20px; margin-bottom: 40px; }
         .social-icon { 
-            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; color: white; text-decoration: none; font-size: 1.5rem; 
+            width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; 
+            justify-content: center; color: white; text-decoration: none; font-size: 1.6rem; 
+            background: var(--input-bg); border: 1px solid var(--border-color);
         }
-        .icon-fb { background: #1877F2; } .icon-wa { background: #25d366; } .icon-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+        .social-icon:hover { transform: translateY(-8px) rotate(8deg); border-color: var(--primary-neon); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .icon-wa:hover { background: #25d366; } .icon-ig:hover { background: #e4405f; } .icon-fb:hover { background: #1877f2; }
     </style>
 </head>
 <body>
 
 <div class="container" id="calculatorCard">
-    <div class="header-actions">
-        <div class="controls-left">
-            <button class="btn-tool" onclick="toggleLang()" id="langBtn">EN</button>
+    <div class="header-actions" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <div style="display: flex; gap: 8px;">
+            <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
             <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
-        <button class="btn-tool btn-reset" id="resetBtn" onclick="resetAll()"><i class="fas fa-trash-alt"></i> مسح</button>
+        <button class="btn-tool btn-reset" onclick="resetAll()"><i class="fas fa-trash-alt"></i> مسح</button>
     </div>
 
-    <div class="logo-area">
-        <div class="logo-main">FC ESNA 2</div>
-        <div style="font-size: 0.75rem; opacity: 0.6;">Finance Calculator</div>
-    </div>
+    <div class="logo-main">FC ESNA 2</div>
+    <p style="text-align: center; opacity: 0.6; font-size: 0.8rem; margin-bottom: 1.5rem;">Aman Finance System</p>
 
     <div class="input-group">
         <label id="lblAmount">المبلغ الأساسي</label>
         <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
     </div>
 
-    <div class="input-row">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem;">
         <div class="input-group">
             <label id="lblAdminRate">المصاريف (%)</label>
             <input type="number" id="adminRate" value="5" oninput="calculate()">
@@ -164,76 +176,62 @@
 
     <div class="smart-indicators">
         <div class="indicator-item">
-            <div class="indicator-label"><span id="lblProfitInd">إجمالي الربح</span><span id="profitVal">0</span></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
+                <span id="lblProfitInd">إجمالي الربح</span><span id="profitVal">0</span>
+            </div>
             <div class="indicator-bar"><div id="profitFill" class="indicator-fill" style="background: #22c55e;"></div></div>
         </div>
-        <div class="indicator-item">
-            <div class="indicator-label"><span id="lblRiskInd">مستوى مخاطرة القسط</span><span id="riskText">آمن</span></div>
+        <div class="indicator-item" style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
+                <span id="lblRiskInd">مستوى مخاطرة القسط</span><span id="riskText">آمن</span>
+            </div>
             <div class="indicator-bar"><div id="riskFill" class="indicator-fill"></div></div>
         </div>
     </div>
 
     <div class="results">
-        <div class="result-item"><span id="resAdmin">المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
-        <div class="result-item"><span id="resNetAfter">الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
-        <div class="result-item"><span id="resTotalInt">إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
-        <div class="result-item"><span id="resMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
-        <div class="result-item highlight"><span id="resFinal">صافي المستلم النهائي:</span> <span id="netAmount">0</span></div>
+        <div class="result-item"><span>المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
+        <div class="result-item"><span>الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
+        <div class="result-item"><span>إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
+        <div class="result-item"><span>القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
+        <div class="result-item" style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1.1rem;">
+            <span id="resFinal" style="font-weight: 800;">صافي المستلم النهائي:</span> <span id="netAmount">0</span>
+        </div>
     </div>
 
-    <button class="save-btn" onclick="downloadImage()"><i class="fas fa-file-download"></i> تصدير البيانات</button>
-    <button class="share-btn" onclick="shareApp()"><i class="fas fa-share-nodes"></i> مشاركة الموقع</button>
+    <button class="action-btn save-btn" onclick="downloadImage()"><i class="fas fa-file-download"></i> تصدير البيانات</button>
+    <button class="action-btn share-btn" onclick="shareApp()"><i class="fas fa-share-nodes"></i> مشاركة الموقع</button>
 </div>
 
 <div class="info-box">
-    <h3 id="infoTitle">دليل الاستخدام</h3>
-    <ul id="infoList">
-        <li>يتم احتساب المصاريف الإدارية وتخصم من أصل المبلغ.</li>
-        <li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
-        <li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li>
-        <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
+    <h3 style="color: var(--primary-neon); margin-top: 0;">دليل الاستخدام</h3>
+    <ul style="padding-right: 20px;">
+        <li>تخصم المصاريف الإدارية من أصل المبلغ مباشرة.</li>
+        <li>القسط الشهري مقرب لأقرب 5 جنيهات.</li>
+        <li>مؤشر الربح يحسب (المصاريف + الفوائد).</li>
     </ul>
 </div>
 
 <div class="dev-signature">Developed by <span>Osama</span></div>
 
-<div class="footer-social-row">
+<div class="social-footer">
     <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="social-icon icon-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
     <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" class="social-icon icon-ig" target="_blank"><i class="fab fa-instagram"></i></a>
     <a href="https://www.facebook.com/share/18TtS2GVNi/" class="social-icon icon-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
 </div>
 
 <script>
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeBtn').innerText = savedTheme === 'light' ? '☀️' : '🌙';
-    }
-
     function toggleTheme() {
         const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
         document.getElementById('themeBtn').innerText = next === 'light' ? '☀️' : '🌙';
     }
 
     function toggleLang() {
-        const html = document.documentElement;
-        const isAr = html.getAttribute('lang') === 'ar';
-        html.setAttribute('lang', isAr ? 'en' : 'ar');
-        html.setAttribute('dir', isAr ? 'ltr' : 'rtl');
-        document.getElementById('langBtn').innerText = isAr ? 'AR' : 'EN';
-        updateTexts(isAr ? 'en' : 'ar');
-    }
-
-    function updateTexts(lang) {
-        const texts = {
-            ar: { infoT: "دليل الاستخدام", amount: "المبلغ الأساسي", resFinal: "صافي المستلم النهائي:" },
-            en: { infoT: "User Guide", amount: "Principal Amount", resFinal: "Final Net Received:" }
-        };
-        document.getElementById('infoTitle').innerText = texts[lang].infoT;
-        document.getElementById('lblAmount').innerText = texts[lang].amount;
-        document.getElementById('resFinal').innerText = texts[lang].resFinal;
+        const isAr = document.documentElement.getAttribute('lang') === 'ar';
+        document.documentElement.setAttribute('lang', isAr ? 'en' : 'ar');
+        document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
+        document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
         calculate();
     }
 
@@ -259,35 +257,31 @@
 
         const totalProfit = adminFee + (roundedMonthly * months - amount);
         document.getElementById('profitVal').innerText = Math.floor(totalProfit).toLocaleString();
-        const pPercent = amount > 0 ? Math.min((totalProfit / amount) * 100, 100) : 0;
-        document.getElementById('profitFill').style.width = pPercent + '%';
+        document.getElementById('profitFill').style.width = amount > 0 ? Math.min((totalProfit / amount) * 100, 100) + '%' : '0%';
 
         const riskRatio = amount > 0 ? (roundedMonthly / amount) * 100 : 0;
-        const riskFill = document.getElementById('riskFill');
-        riskFill.style.width = Math.min(riskRatio * 5, 100) + '%';
-        if (riskRatio < 10) { riskFill.style.background = '#22c55e'; document.getElementById('riskText').innerText = isAr ? 'آمن' : 'Safe'; }
-        else if (riskRatio < 20) { riskFill.style.background = '#f59e0b'; document.getElementById('riskText').innerText = isAr ? 'متوسط' : 'Medium'; }
-        else { riskFill.style.background = '#ef4444'; document.getElementById('riskText').innerText = isAr ? 'عالٍ' : 'High'; }
+        const rf = document.getElementById('riskFill');
+        rf.style.width = Math.min(riskRatio * 5, 100) + '%';
+        if (riskRatio < 10) { rf.style.background = '#22c55e'; document.getElementById('riskText').innerText = isAr ? 'آمن' : 'Safe'; }
+        else if (riskRatio < 20) { rf.style.background = '#f59e0b'; document.getElementById('riskText').innerText = isAr ? 'متوسط' : 'Medium'; }
+        else { rf.style.background = '#ef4444'; document.getElementById('riskText').innerText = isAr ? 'عالٍ' : 'High'; }
     }
 
     function resetAll() {
-        document.getElementById('amount').value = ''; document.getElementById('interest').value = '';
-        document.getElementById('months').value = ''; calculate();
+        document.querySelectorAll('input').forEach(i => i.value = (i.id === 'adminRate' ? '5' : ''));
+        calculate();
     }
 
     function shareApp() {
         if (navigator.share) navigator.share({ title: 'FC ESNA 2', url: window.location.href });
-        else alert("Link copied: " + window.location.href);
+        else alert("تم نسخ الرابط!");
     }
 
     async function downloadImage() {
-        const card = document.getElementById('calculatorCard');
-        const canvas = await html2canvas(card, { backgroundColor: '#020617', scale: 2 });
+        const canvas = await html2canvas(document.getElementById('calculatorCard'), { backgroundColor: '#020617', scale: 2 });
         const link = document.createElement('a');
-        link.download = `FC-Osama.png`; link.href = canvas.toDataURL(); link.click();
+        link.download = `Osama-Finance.png`; link.href = canvas.toDataURL(); link.click();
     }
-
-    initTheme();
 </script>
 </body>
 </html>
