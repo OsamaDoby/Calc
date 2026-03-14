@@ -55,7 +55,6 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
             margin-bottom: 20px;
-            position: relative;
         }
 
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -75,17 +74,10 @@
             gap: 6px;
         }
 
-        .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
-
-        .btn-reset {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
+        .btn-reset { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; }
         .btn-reset:hover { background: #ef4444; color: white; }
 
-        .logo-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem; text-align: center; }
+        .logo-area { text-align: center; margin-bottom: 1.5rem; }
         .logo-main {
             font-size: 2rem; font-weight: 800; color: var(--primary-neon);
             animation: neon-pulse 2s infinite alternate; letter-spacing: 2px;
@@ -96,9 +88,6 @@
             to { text-shadow: 0 0 15px var(--primary-neon); transform: scale(1.02); }
         }
 
-        .logo-sub { font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; margin-top: 5px; }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .input-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
         input {
@@ -106,49 +95,40 @@
             background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1rem;
         }
 
-        .smart-indicators {
-            margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--border-color);
-        }
-        .indicator-item { margin-bottom: 10px; }
-        .indicator-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; }
-        .indicator-bar { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
-        .indicator-fill { height: 100%; width: 0%; transition: width 0.6s ease; }
-
         .results {
             margin-top: 1.5rem; padding: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 15px; border: 1px solid var(--border-color);
         }
 
         .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
         .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
-        .result-item.highlight { border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1rem; }
 
-        .save-btn {
+        .save-btn, .share-btn {
             width: 100%; background: transparent; color: var(--primary-neon); border: 1px solid var(--primary-neon);
-            padding: 14px; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 1rem;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 0.8rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Cairo';
         }
-        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: 0 0 20px var(--primary-neon); }
+        .share-btn { color: var(--secondary-neon); border-color: var(--secondary-neon); }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: 0 0 15px var(--primary-neon); }
+        .share-btn:hover { background: var(--secondary-neon); color: white; box-shadow: 0 0 15px var(--secondary-neon); }
 
-        .info-box {
-            width: 100%; max-width: 420px; padding: 1.5rem; background: var(--card-bg); border-radius: 20px;
-            font-size: 0.85rem; line-height: 1.6; border: 1px solid var(--border-color); margin-bottom: 120px;
+        /* توقيع أسامة */
+        .dev-signature {
+            margin-top: 20px; font-family: 'Poppins', sans-serif; font-size: 0.8rem;
+            letter-spacing: 1px; opacity: 0.9; color: var(--text-color);
         }
-        .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
+        .dev-signature span { color: var(--primary-neon); font-weight: 700; text-shadow: 0 0 8px var(--primary-neon); }
 
-        /* حقوق الملكية واسم الشركة */
-        .brand-footer {
-            margin-top: 15px; font-size: 0.85rem; opacity: 0.8; font-weight: 700; color: var(--text-color);
-            display: flex; align-items: center; gap: 5px;
+        /* فوتر السوشيال ميديا في الأسفل */
+        .footer-container {
+            margin-top: auto; padding: 30px 0; display: flex; flex-direction: column; align-items: center; gap: 20px;
         }
-        .brand-name { color: var(--primary-neon); font-size: 1.1rem; text-shadow: var(--glow); }
-
-        .footer-social { position: fixed; bottom: 20px; left: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .social-row { display: flex; gap: 20px; justify-content: center; }
         .social-icon { 
-            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
-            text-decoration: none; font-size: 1.5rem; 
+            width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; 
+            justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; 
+            border: 1px solid rgba(255,255,255,0.1); transition: 0.4s;
         }
-        .social-icon:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); }
         .icon-fb { background: #1877F2; } .icon-wa { background: #25d366; } .icon-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
     </style>
 </head>
@@ -165,7 +145,7 @@
 
     <div class="logo-area">
         <div class="logo-main">FC ESNA 2</div>
-        <div class="logo-sub">Finance Calculator</div>
+        <p style="font-size: 0.8rem; opacity: 0.6; margin: 0;">Finance Calculator</p>
     </div>
 
     <div class="input-group">
@@ -173,9 +153,9 @@
         <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
     </div>
 
-    <div class="input-row">
+    <div class="input-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div class="input-group">
-            <label id="lblAdminRate">المصاريف الإدارية (%)</label>
+            <label id="lblAdminRate">المصاريف (%)</label>
             <input type="number" id="adminRate" value="5" oninput="calculate()">
         </div>
         <div class="input-group">
@@ -189,54 +169,33 @@
         <input type="number" id="months" placeholder="0" oninput="calculate()">
     </div>
 
-    <div class="smart-indicators">
-        <div class="indicator-item">
-            <div class="indicator-label"><span id="lblProfitInd">إجمالي الربح (فوائد + مصاريف)</span><span id="profitVal">0</span></div>
-            <div class="indicator-bar"><div id="profitFill" class="indicator-fill" style="background: #22c55e;"></div></div>
-        </div>
-        <div class="indicator-item">
-            <div class="indicator-label"><span id="lblRiskInd">مستوى مخاطرة القسط</span><span id="riskText">آمن</span></div>
-            <div class="indicator-bar"><div id="riskFill" class="indicator-fill"></div></div>
-        </div>
-    </div>
-
     <div class="results">
         <div class="result-item"><span id="resAdmin">المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
-        <div class="result-item"><span id="resNetAfter">الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
-        <div class="result-item"><span id="resTotalInt">إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
-        <div class="result-item"><span id="resMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
-        <div class="result-item highlight"><span id="resFinal">صافي المستلم النهائي:</span> <span id="netAmount">0</span></div>
+        <div class="result-item"><span id="resMonthly">القسط الشهري:</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
+        <div class="result-item" style="border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px;">
+            <span id="resFinal" style="font-weight: 800;">صافي المستلم:</span> <span id="netAmount">0</span>
+        </div>
     </div>
 
-    <button class="save-btn" id="saveBtn" onclick="downloadImage()">
-        <i class="fas fa-file-download"></i> <span id="saveTxt">تصدير بيانات العملية</span>
+    <button class="save-btn" onclick="downloadImage()">
+        <i class="fas fa-file-download"></i> <span id="saveTxt">حفظ كصورة</span>
+    </button>
+    
+    <button class="share-btn" onclick="shareApp()">
+        <i class="fas fa-share-nodes"></i> <span id="shareTxt">مشاركة الموقع</span>
     </button>
 </div>
 
-<div class="info-box">
-    <h3 id="infoTitle">دليل الاستخدام</h3>
-    <ul id="infoList">
-        <li>يتم احتساب المصاريف الإدارية وتخصم من أصل المبلغ.</li>
-        <li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li>
-        <li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li>
-        <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
-    </ul>
-    
-    <div class="brand-footer">
-        جميع الحقوق محفوظة لشركة <span class="brand-name">أمان</span>
+<div class="footer-container">
+    <div class="social-row">
+        <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="social-icon icon-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" class="social-icon icon-ig" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/share/18TtS2GVNi/" class="social-icon icon-fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
     </div>
-</div>
 
-<div class="footer-social">
-    <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="social-icon icon-wa" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" class="social-icon icon-ig" target="_blank">
-        <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.facebook.com/share/18TtS2GVNi/" class="social-icon icon-fb" target="_blank">
-        <i class="fab fa-facebook-f"></i>
-    </a>
+    <div class="dev-signature">
+        Developed by <span>Osama</span>
+    </div>
 </div>
 
 <script>
@@ -256,16 +215,13 @@
 
     function toggleLang() {
         const html = document.documentElement;
-        const currentLang = html.getAttribute('lang');
-        const isAr = currentLang === 'ar';
+        const isAr = html.getAttribute('lang') === 'ar';
         if (isAr) {
-            html.setAttribute('lang', 'en');
-            html.setAttribute('dir', 'ltr');
+            html.setAttribute('lang', 'en'); html.setAttribute('dir', 'ltr');
             document.getElementById('langBtn').innerHTML = '<i class="fas fa-language"></i> AR';
             updateTexts('en');
         } else {
-            html.setAttribute('lang', 'ar');
-            html.setAttribute('dir', 'rtl');
+            html.setAttribute('lang', 'ar'); html.setAttribute('dir', 'rtl');
             document.getElementById('langBtn').innerHTML = '<i class="fas fa-language"></i> EN';
             updateTexts('ar');
         }
@@ -273,85 +229,47 @@
 
     function updateTexts(lang) {
         const texts = {
-            ar: {
-                reset: " مسح", amount: "المبلغ الأساسي", admin: "المصاريف الإدارية (%)", interest: "الفايدة (%)",
-                months: "المدة (بالشهور)", pInd: "إجمالي الربح (فوائد + مصاريف)", rInd: "مستوى مخاطرة القسط",
-                resAdmin: "المصاريف الإدارية:", resNet: "الصافي بعد المصاريف:", resInt: "إجمالي الفائدة:",
-                resMonth: "القسط الشهري (مقرب):", resFinal: "صافي المستلم النهائي:", save: "تصدير بيانات العملية",
-                infoT: "دليل الاستخدام", infoL: `<li>يتم احتساب المصاريف الإدارية وتخصم من أصل المبلغ.</li><li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li><li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li><li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
-            },
-            en: {
-                reset: " Reset", amount: "Principal Amount", admin: "Admin Fees (%)", interest: "Interest (%)",
-                months: "Duration (Months)", pInd: "Total Profit (Interest + Admin)", rInd: "Payment Risk Level",
-                resAdmin: "Admin Fees:", resNet: "Net After Admin:", resInt: "Total Interest:",
-                resMonth: "Monthly Payment:", resFinal: "Final Net Received:", save: "Export Data",
-                infoT: "User Guide", infoL: `<li>Admin fees are calculated and deducted from the principal.</li><li>Monthly payment is rounded up.</li><li><b>Profit Indicator:</b> Combines admin fees and interest.</li><li>Final net is after admin fees and first installment.</li>`
-            }
+            ar: { save: "حفظ كصورة", share: "مشاركة الموقع", amount: "المبلغ الأساسي", resFinal: "صافي المستلم:" },
+            en: { save: "Save as Image", share: "Share Website", amount: "Principal Amount", resFinal: "Final Net:" }
         };
         const t = texts[lang];
-        document.getElementById('resetBtn').innerHTML = `<i class="fas fa-trash-alt"></i> ${t.reset}`;
-        document.getElementById('lblAmount').innerText = t.amount;
-        document.getElementById('lblAdminRate').innerText = t.admin;
-        document.getElementById('lblInterest').innerText = t.interest;
-        document.getElementById('lblMonths').innerText = t.months;
-        document.getElementById('lblProfitInd').innerText = t.pInd;
-        document.getElementById('lblRiskInd').innerText = t.rInd;
-        document.getElementById('resAdmin').innerText = t.resAdmin;
-        document.getElementById('resNetAfter').innerText = t.resNet;
-        document.getElementById('resTotalInt').innerText = t.resInt;
-        document.getElementById('resMonthly').innerText = t.resMonth;
-        document.getElementById('resFinal').innerText = t.resFinal;
         document.getElementById('saveTxt').innerText = t.save;
-        document.getElementById('infoTitle').innerText = t.infoT;
-        document.getElementById('infoList').innerHTML = t.infoL;
+        document.getElementById('shareTxt').innerText = t.share;
+        document.getElementById('lblAmount').innerText = t.amount;
+        document.getElementById('resFinal').innerText = t.resFinal;
         calculate();
     }
 
     function calculate() {
-        const isAr = document.documentElement.getAttribute('lang') === 'ar';
         const amount = parseFloat(document.getElementById('amount').value) || 0;
         const adminRate = parseFloat(document.getElementById('adminRate').value) || 0;
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
         const months = parseInt(document.getElementById('months').value) || 0;
 
         const adminFee = amount * (adminRate / 100);
-        const netAfterAdmin = amount - adminFee;
         const totalInterest = amount * (interestRate / 100) * (months / 12);
         const rawMonthly = months > 0 ? (amount + totalInterest) / months : 0;
         const roundedMonthly = Math.ceil(rawMonthly / 5) * 5;
-        const netFinal = amount > 0 ? (netAfterAdmin - roundedMonthly) : 0;
+        const netFinal = amount > 0 ? (amount - adminFee - roundedMonthly) : 0;
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
-        document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
-        document.getElementById('totalInterestVal').innerText = totalInterest.toLocaleString();
         document.getElementById('monthlyPayment').innerText = roundedMonthly.toLocaleString();
         document.getElementById('netAmount').innerText = Math.max(0, Math.floor(netFinal)).toLocaleString();
-
-        const totalProfit = adminFee + (roundedMonthly * months - amount);
-        document.getElementById('profitVal').innerText = Math.max(0, Math.floor(totalProfit)).toLocaleString();
-        const pPercent = amount > 0 ? Math.min((totalProfit / amount) * 100, 100) : 0;
-        document.getElementById('profitFill').style.width = pPercent + '%';
-
-        const riskRatio = amount > 0 ? (roundedMonthly / amount) * 100 : 0;
-        const riskFill = document.getElementById('riskFill');
-        const riskT = document.getElementById('riskText');
-        riskFill.style.width = Math.min(riskRatio * 5, 100) + '%';
-
-        if (riskRatio < 10) { 
-            riskFill.style.background = '#22c55e'; riskT.innerText = isAr ? 'آمن' : 'Safe'; 
-        } else if (riskRatio < 20) { 
-            riskFill.style.background = '#f59e0b'; riskT.innerText = isAr ? 'متوسط' : 'Medium'; 
-        } else { 
-            riskFill.style.background = '#ef4444'; riskT.innerText = isAr ? 'عالٍ' : 'High'; 
-        }
     }
 
     function resetAll() {
         document.getElementById('amount').value = '';
         document.getElementById('interest').value = '';
         document.getElementById('months').value = '';
-        document.getElementById('adminRate').value = '5';
         calculate();
+    }
+
+    function shareApp() {
+        if (navigator.share) {
+            navigator.share({ title: 'FC ESNA 2', url: window.location.href });
+        } else {
+            alert("تم نسخ الرابط: " + window.location.href);
+        }
     }
 
     async function downloadImage() {
@@ -359,7 +277,7 @@
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         const canvas = await html2canvas(card, { backgroundColor: isDark ? '#020617' : '#f8fafc', scale: 2 });
         const link = document.createElement('a');
-        link.download = `Aman-Finance-${Date.now()}.png`;
+        link.download = `FC-Osama-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     }
