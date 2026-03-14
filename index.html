@@ -30,7 +30,7 @@
             --glow: 0 0 10px rgba(14, 165, 233, 0.1);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             font-family: 'Cairo', 'Poppins', sans-serif;
@@ -55,6 +55,7 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--glow);
             margin-bottom: 20px;
+            position: relative;
         }
 
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -71,8 +72,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
         }
+
+        .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
 
         .btn-reset {
             background: rgba(239, 68, 68, 0.1);
@@ -80,20 +83,12 @@
             color: #ef4444;
         }
 
-        .logo-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
+        .btn-reset:hover { background: #ef4444; color: white; }
 
+        .logo-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem; text-align: center; }
         .logo-main {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-neon);
-            animation: neon-pulse 2s infinite alternate;
-            letter-spacing: 2px;
+            font-size: 2rem; font-weight: 800; color: var(--primary-neon);
+            animation: neon-pulse 2s infinite alternate; letter-spacing: 2px;
         }
 
         @keyframes neon-pulse {
@@ -106,7 +101,6 @@
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .input-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 5px; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
-        
         input {
             width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1rem;
@@ -126,24 +120,35 @@
 
         .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
         .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
-        
-        .result-item.highlight {
-            border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1rem;
-        }
+        .result-item.highlight { border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1rem; }
 
         .save-btn {
             width: 100%; background: transparent; color: var(--primary-neon); border: 1px solid var(--primary-neon);
             padding: 14px; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .save-btn:hover { background: var(--primary-neon); color: #000; box-shadow: 0 0 20px var(--primary-neon); }
 
         .info-box {
             width: 100%; max-width: 420px; padding: 1.5rem; background: var(--card-bg); border-radius: 20px;
-            font-size: 0.85rem; line-height: 1.6; border: 1px solid var(--border-color); margin-bottom: 80px;
+            font-size: 0.85rem; line-height: 1.6; border: 1px solid var(--border-color); margin-bottom: 120px;
         }
         .info-box h3 { margin-top: 0; color: var(--secondary-neon); font-size: 1rem; }
 
+        /* حقوق الملكية واسم الشركة */
+        .brand-footer {
+            margin-top: 15px; font-size: 0.85rem; opacity: 0.8; font-weight: 700; color: var(--text-color);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .brand-name { color: var(--primary-neon); font-size: 1.1rem; text-shadow: var(--glow); }
+
         .footer-social { position: fixed; bottom: 20px; left: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
-        .social-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.4); text-decoration: none; font-size: 1.5rem; }
+        .social-icon { 
+            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+            text-decoration: none; font-size: 1.5rem; 
+        }
+        .social-icon:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
         .icon-fb { background: #1877F2; } .icon-wa { background: #25d366; } .icon-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
     </style>
 </head>
@@ -152,10 +157,10 @@
 <div class="container" id="calculatorCard">
     <div class="header-actions">
         <div class="controls-left">
-            <button class="btn-tool" onclick="toggleLang()" id="langBtn">EN</button>
+            <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
             <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
-        <button class="btn-tool btn-reset" id="resetBtn" onclick="resetAll()">مسح</button>
+        <button class="btn-tool btn-reset" id="resetBtn" onclick="resetAll()"><i class="fas fa-trash-alt"></i> مسح</button>
     </div>
 
     <div class="logo-area">
@@ -203,7 +208,9 @@
         <div class="result-item highlight"><span id="resFinal">صافي المستلم النهائي:</span> <span id="netAmount">0</span></div>
     </div>
 
-    <button class="save-btn" id="saveBtn" onclick="downloadImage()">تصدير بيانات العملية</button>
+    <button class="save-btn" id="saveBtn" onclick="downloadImage()">
+        <i class="fas fa-file-download"></i> <span id="saveTxt">تصدير بيانات العملية</span>
+    </button>
 </div>
 
 <div class="info-box">
@@ -214,6 +221,10 @@
         <li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li>
         <li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>
     </ul>
+    
+    <div class="brand-footer">
+        جميع الحقوق محفوظة لشركة <span class="brand-name">أمان</span>
+    </div>
 </div>
 
 <div class="footer-social">
@@ -230,11 +241,9 @@
 
 <script>
     function initTheme() {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const savedTheme = localStorage.getItem('theme');
-        const finalTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', finalTheme);
-        document.getElementById('themeBtn').innerText = finalTheme === 'light' ? '☀️' : '🌙';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeBtn').innerText = savedTheme === 'light' ? '☀️' : '🌙';
     }
 
     function toggleTheme() {
@@ -252,12 +261,12 @@
         if (isAr) {
             html.setAttribute('lang', 'en');
             html.setAttribute('dir', 'ltr');
-            document.getElementById('langBtn').innerText = 'AR';
+            document.getElementById('langBtn').innerHTML = '<i class="fas fa-language"></i> AR';
             updateTexts('en');
         } else {
             html.setAttribute('lang', 'ar');
             html.setAttribute('dir', 'rtl');
-            document.getElementById('langBtn').innerText = 'EN';
+            document.getElementById('langBtn').innerHTML = '<i class="fas fa-language"></i> EN';
             updateTexts('ar');
         }
     }
@@ -265,22 +274,22 @@
     function updateTexts(lang) {
         const texts = {
             ar: {
-                reset: "مسح", amount: "المبلغ الأساسي", admin: "المصاريف الإدارية (%)", interest: "الفايدة (%)",
+                reset: " مسح", amount: "المبلغ الأساسي", admin: "المصاريف الإدارية (%)", interest: "الفايدة (%)",
                 months: "المدة (بالشهور)", pInd: "إجمالي الربح (فوائد + مصاريف)", rInd: "مستوى مخاطرة القسط",
                 resAdmin: "المصاريف الإدارية:", resNet: "الصافي بعد المصاريف:", resInt: "إجمالي الفائدة:",
                 resMonth: "القسط الشهري (مقرب):", resFinal: "صافي المستلم النهائي:", save: "تصدير بيانات العملية",
                 infoT: "دليل الاستخدام", infoL: `<li>يتم احتساب المصاريف الإدارية وتخصم من أصل المبلغ.</li><li>يتم جبر القسط الشهري لأقرب 5 جنيهات لتسهيل التحصيل.</li><li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li><li>صافي المستلم النهائي هو المبلغ بعد خصم المصاريف وأول قسط.</li>`
             },
             en: {
-                reset: "Reset", amount: "Principal Amount", admin: "Admin Fees (%)", interest: "Interest (%)",
+                reset: " Reset", amount: "Principal Amount", admin: "Admin Fees (%)", interest: "Interest (%)",
                 months: "Duration (Months)", pInd: "Total Profit (Interest + Admin)", rInd: "Payment Risk Level",
                 resAdmin: "Admin Fees:", resNet: "Net After Admin:", resInt: "Total Interest:",
-                resMonth: "Monthly Payment:", resFinal: "Final Net Received:", save: "Export Transaction Data",
-                infoT: "User Guide", infoL: `<li>Admin fees are calculated and deducted from the principal.</li><li>Monthly payment is rounded to the nearest 5 for easy collection.</li><li><b>Profit Indicator:</b> Combines admin fees and total interest.</li><li>Final net is the amount after deducting admin fees and the first installment.</li>`
+                resMonth: "Monthly Payment:", resFinal: "Final Net Received:", save: "Export Data",
+                infoT: "User Guide", infoL: `<li>Admin fees are calculated and deducted from the principal.</li><li>Monthly payment is rounded up.</li><li><b>Profit Indicator:</b> Combines admin fees and interest.</li><li>Final net is after admin fees and first installment.</li>`
             }
         };
         const t = texts[lang];
-        document.getElementById('resetBtn').innerText = t.reset;
+        document.getElementById('resetBtn').innerHTML = `<i class="fas fa-trash-alt"></i> ${t.reset}`;
         document.getElementById('lblAmount').innerText = t.amount;
         document.getElementById('lblAdminRate').innerText = t.admin;
         document.getElementById('lblInterest').innerText = t.interest;
@@ -292,7 +301,7 @@
         document.getElementById('resTotalInt').innerText = t.resInt;
         document.getElementById('resMonthly').innerText = t.resMonth;
         document.getElementById('resFinal').innerText = t.resFinal;
-        document.getElementById('saveBtn').innerText = t.save;
+        document.getElementById('saveTxt').innerText = t.save;
         document.getElementById('infoTitle').innerText = t.infoT;
         document.getElementById('infoList').innerHTML = t.infoL;
         calculate();
@@ -329,14 +338,11 @@
         riskFill.style.width = Math.min(riskRatio * 5, 100) + '%';
 
         if (riskRatio < 10) { 
-            riskFill.style.background = '#22c55e'; 
-            riskT.innerText = isAr ? 'آمن' : 'Safe'; 
+            riskFill.style.background = '#22c55e'; riskT.innerText = isAr ? 'آمن' : 'Safe'; 
         } else if (riskRatio < 20) { 
-            riskFill.style.background = '#f59e0b'; 
-            riskT.innerText = isAr ? 'متوسط' : 'Medium'; 
+            riskFill.style.background = '#f59e0b'; riskT.innerText = isAr ? 'متوسط' : 'Medium'; 
         } else { 
-            riskFill.style.background = '#ef4444'; 
-            riskT.innerText = isAr ? 'عالٍ' : 'High'; 
+            riskFill.style.background = '#ef4444'; riskT.innerText = isAr ? 'عالٍ' : 'High'; 
         }
     }
 
@@ -351,12 +357,9 @@
     async function downloadImage() {
         const card = document.getElementById('calculatorCard');
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const canvas = await html2canvas(card, { 
-            backgroundColor: isDark ? '#020617' : '#f8fafc', 
-            scale: 2 
-        });
+        const canvas = await html2canvas(card, { backgroundColor: isDark ? '#020617' : '#f8fafc', scale: 2 });
         const link = document.createElement('a');
-        link.download = `FC-Op-${Date.now()}.png`;
+        link.download = `Aman-Finance-${Date.now()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     }
