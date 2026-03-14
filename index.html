@@ -71,10 +71,12 @@
         .btn-reset:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
         .logo-main {
-            font-size: 2rem; font-weight: 800; color: var(--primary-neon);
+            font-size: 2rem; font-weight: 800; color: var(--text-color);
             animation: neon-glow-soft 2s infinite alternate; letter-spacing: 2px;
             text-align: center; margin-top: 10px;
         }
+        .logo-main span { color: var(--primary-neon); }
+        
         @keyframes neon-glow-soft {
             from { text-shadow: 0 0 5px var(--primary-neon); }
             to { text-shadow: 0 0 15px var(--primary-neon); }
@@ -134,18 +136,18 @@
 <div class="container" id="calculatorCard">
     <div class="header-actions" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
         <div style="display: flex; gap: 8px;">
-            <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
+            <button class="btn-tool" onclick="toggleLang()" id="langBtn">EN</button>
             <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
         <button class="btn-tool btn-reset" onclick="resetAll()"><i class="fas fa-trash-alt"></i> <span id="btnResetTxt">مسح</span></button>
     </div>
 
-    <div class="logo-main">FC ESNA 2</div>
+    <div class="logo-main">FC <span>ESNA 2</span></div>
     <p style="text-align: center; opacity: 0.6; font-size: 0.8rem; margin: 0 0 2rem 0;">Finance Calculator</p>
 
     <div class="input-group">
         <label id="lblAmount">المبلغ الأساسي</label>
-        <input type="number" id="amount" placeholder="0.00" oninput="calculate()">
+        <input type="number" id="amount" placeholder="0" oninput="calculate()">
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem;">
@@ -223,7 +225,7 @@
         const newLang = isAr ? 'en' : 'ar';
         document.documentElement.setAttribute('lang', newLang);
         document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
-        document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
+        document.getElementById('langBtn').innerHTML = isAr ? 'AR' : 'EN';
         updateTexts(newLang);
     }
 
@@ -273,21 +275,21 @@
         const interestRate = parseFloat(document.getElementById('interest').value) || 0;
         const months = parseInt(document.getElementById('months').value) || 0;
 
-        const adminFee = amount * (adminRate / 100);
-        const netAfterAdmin = amount - adminFee;
-        const totalInterest = amount * (interestRate / 100) * (months / 12);
+        const adminFee = Math.round(amount * (adminRate / 100));
+        const netAfterAdmin = Math.round(amount - adminFee);
+        const totalInterest = Math.round(amount * (interestRate / 100) * (months / 12));
         const rawMonthly = months > 0 ? (amount + totalInterest) / months : 0;
         const roundedMonthly = Math.ceil(rawMonthly / 5) * 5;
-        const netFinal = amount > 0 ? (netAfterAdmin - roundedMonthly) : 0;
+        const netFinal = amount > 0 ? Math.round(netAfterAdmin - roundedMonthly) : 0;
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
         document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
         document.getElementById('totalInterestVal').innerText = totalInterest.toLocaleString();
         document.getElementById('monthlyPayment').innerText = roundedMonthly.toLocaleString();
-        document.getElementById('netAmount').innerText = Math.max(0, Math.floor(netFinal)).toLocaleString();
+        document.getElementById('netAmount').innerText = Math.max(0, netFinal).toLocaleString();
 
-        const totalProfit = adminFee + (roundedMonthly * months - amount);
-        document.getElementById('profitVal').innerText = Math.floor(totalProfit).toLocaleString();
+        const totalProfit = Math.round(adminFee + (roundedMonthly * months - amount));
+        document.getElementById('profitVal').innerText = totalProfit.toLocaleString();
         document.getElementById('profitFill').style.width = amount > 0 ? Math.min((totalProfit / amount) * 100, 100) + '%' : '0%';
 
         const riskRatio = amount > 0 ? (roundedMonthly / amount) * 100 : 0;
@@ -311,7 +313,6 @@
 
     async function downloadImage() {
         const card = document.getElementById('calculatorCard');
-        
         const options = {
             backgroundColor: null,
             scale: 2, 
