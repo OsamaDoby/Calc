@@ -92,7 +92,14 @@
 
         .results { margin-top: 1.5rem; padding: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 15px; border: 1px solid var(--border-color); }
         .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
-        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; text-shadow: 0 0 5px var(--primary-neon); }
+        .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
+
+        /* التعديل المطلوب: جعل رقم القسط واضح جداً ومريح للعين */
+        #monthlyPayment {
+            color: var(--primary-neon) !important; /* استخدام لون النيون الأساسي للوضوح */
+            text-shadow: none !important; /* إلغاء الإضاءة الزائدة حول الرقم لراحة العين */
+            font-size: 1.1rem;
+        }
 
         .action-btn {
             width: 100%; background: transparent; padding: 14px; border-radius: 15px; font-weight: bold; 
@@ -176,9 +183,9 @@
         <div class="result-item"><span id="txtResAdmin">المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
         <div class="result-item"><span id="txtResNet">الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
         <div class="result-item"><span id="txtResTotalInt">إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
-        <div class="result-item"><span id="txtResMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
+        <div class="result-item"><span id="txtResMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment">0</span></div>
         <div class="result-item" style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1.1rem;">
-            <span id="resFinal" style="font-weight: 800;">صافي المستلم النهائي:</span> <span id="netAmount">0</span>
+            <span id="resFinal" style="font-weight: 800;">صافي المستلم النهائي:</span> <span id="netAmount" style="color: var(--primary-neon); font-weight: bold; text-shadow: 0 0 5px var(--primary-neon);">0</span>
         </div>
     </div>
 
