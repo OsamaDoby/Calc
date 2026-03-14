@@ -80,9 +80,11 @@
             to { text-shadow: 0 0 15px var(--primary-neon); }
         }
 
+        /* تعديل الـ Input لضمان عدم قص الأرقام */
         input {
-            width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color);
+            width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1rem;
+            line-height: 1.5; height: 50px;
         }
         input:focus { border-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); }
 
@@ -94,10 +96,9 @@
         .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
         .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
 
-        /* التعديل المطلوب: جعل رقم القسط واضح جداً ومريح للعين */
         #monthlyPayment {
-            color: var(--primary-neon) !important; /* استخدام لون النيون الأساسي للوضوح */
-            text-shadow: none !important; /* إلغاء الإضاءة الزائدة حول الرقم لراحة العين */
+            color: var(--primary-neon) !important;
+            text-shadow: none !important;
             font-size: 1.1rem;
         }
 
@@ -310,11 +311,31 @@
     }
 
     async function downloadImage() {
-        const canvas = await html2canvas(document.getElementById('calculatorCard'), { backgroundColor: '#020617', scale: 2 });
-        const link = document.createElement('a');
-        link.download = 'Finance-Calculator.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        const card = document.getElementById('calculatorCard');
+        
+        // إعدادات خاصة للمكتبة لضمان جودة الأرقام وعدم القص
+        const options = {
+            backgroundColor: null,
+            scale: 2, // جودة عالية
+            useCORS: true,
+            logging: false,
+            // إضافة مساحة وهمية صغيرة حول العناصر لضمان عدم قص الـ Padding
+            onclone: (clonedDoc) => {
+                const clonedCard = clonedDoc.getElementById('calculatorCard');
+                clonedCard.style.padding = '3rem 2.5rem';
+                clonedCard.style.transform = 'none';
+            }
+        };
+
+        try {
+            const canvas = await html2canvas(card, options);
+            const link = document.createElement('a');
+            link.download = 'Finance-Calculator.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch (err) {
+            console.error("خطأ في تصدير الصورة:", err);
+        }
     }
 </script>
 </body>
