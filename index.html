@@ -70,7 +70,6 @@
         .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,242,255,0.1); border-color: var(--primary-neon); }
         .btn-reset:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
-        /* حركة شعار هادئة ومريحة */
         .logo-main {
             font-size: 2rem; font-weight: 800; color: var(--primary-neon);
             animation: neon-glow-soft 2s infinite alternate; letter-spacing: 2px;
@@ -111,21 +110,16 @@
             border: 1px solid var(--border-color); margin-bottom: 25px;
         }
 
-        .dev-signature {
-            font-family: 'Poppins'; font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 1px;
-        }
-        .dev-signature span { 
-            color: var(--primary-neon); font-weight: 800; 
-            text-shadow: 0 0 5px var(--primary-neon);
-        }
+        .dev-signature { font-family: 'Poppins'; font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 1px; }
+        .dev-signature span { color: var(--primary-neon); font-weight: 800; text-shadow: 0 0 5px var(--primary-neon); }
 
         .social-footer { display: flex; gap: 20px; margin-bottom: 30px; }
         .social-icon { 
             width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; 
             justify-content: center; color: white; text-decoration: none; font-size: 1.5rem; 
-            background: var(--input-bg); border: 1px solid var(--border-color); transition: 0.4s;
+            background: var(--input-bg); border: 1px solid var(--border-color);
         }
-        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); }
     </style>
 </head>
 <body>
@@ -136,7 +130,7 @@
             <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
             <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
-        <button class="btn-tool btn-reset" onclick="resetAll()"><i class="fas fa-trash-alt"></i> مسح</button>
+        <button class="btn-tool btn-reset" onclick="resetAll()"><i class="fas fa-trash-alt"></i> <span id="btnResetTxt">مسح</span></button>
     </div>
 
     <div class="logo-main">FC ESNA 2</div>
@@ -179,20 +173,22 @@
     </div>
 
     <div class="results">
-        <div class="result-item"><span>المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
-        <div class="result-item"><span>القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
+        <div class="result-item"><span id="txtResAdmin">المصاريف الإدارية:</span> <span id="adminFee">0</span></div>
+        <div class="result-item"><span id="txtResNet">الصافي بعد المصاريف:</span> <span id="netAfterAdmin">0</span></div>
+        <div class="result-item"><span id="txtResTotalInt">إجمالي الفائدة:</span> <span id="totalInterestVal">0</span></div>
+        <div class="result-item"><span id="txtResMonthly">القسط الشهري (مقرب):</span> <span id="monthlyPayment" style="color: var(--secondary-neon);">0</span></div>
         <div class="result-item" style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-size: 1.1rem;">
             <span id="resFinal" style="font-weight: 800;">صافي المستلم النهائي:</span> <span id="netAmount">0</span>
         </div>
     </div>
 
-    <button class="action-btn save-btn" onclick="downloadImage()"><i class="fas fa-file-download"></i> تصدير البيانات كصورة</button>
-    <button class="action-btn share-btn" onclick="shareApp()"><i class="fas fa-share-nodes"></i> مشاركة الموقع</button>
+    <button class="action-btn save-btn" onclick="downloadImage()"><i class="fas fa-file-download"></i> <span id="btnSaveTxt">تصدير البيانات كصورة</span></button>
+    <button class="action-btn share-btn" onclick="shareApp()"><i class="fas fa-share-nodes"></i> <span id="btnShareTxt">مشاركة الموقع</span></button>
 </div>
 
 <div class="info-box">
-    <h3 style="color: var(--primary-neon); margin-top: 0;">دليل الاستخدام</h3>
-    <ul style="padding-right: 20px; font-size: 0.9rem;">
+    <h3 id="infoTitle" style="color: var(--primary-neon); margin-top: 0;">دليل الاستخدام</h3>
+    <ul id="infoList" style="padding-right: 20px; font-size: 0.9rem;">
         <li>تخصم المصاريف الإدارية من أصل المبلغ مباشرة.</li>
         <li>القسط الشهري مقرب لأقرب 5 جنيهات لتسهيل التحصيل.</li>
         <li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li>
@@ -217,20 +213,49 @@
 
     function toggleLang() {
         const isAr = document.documentElement.getAttribute('lang') === 'ar';
-        document.documentElement.setAttribute('lang', isAr ? 'en' : 'ar');
+        const newLang = isAr ? 'en' : 'ar';
+        document.documentElement.setAttribute('lang', newLang);
         document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
         document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
-        updateTexts(isAr ? 'en' : 'ar');
+        updateTexts(newLang);
     }
 
     function updateTexts(lang) {
-        const texts = {
-            ar: { amount: "المبلغ الأساسي", resFinal: "صافي المستلم النهائي:", profitInd: "إجمالي الربح (فوائد + مصاريف)" },
-            en: { amount: "Principal Amount", resFinal: "Final Net Received:", profitInd: "Total Profit (Interest + Admin)" }
-        };
-        document.getElementById('lblAmount').innerText = texts[lang].amount;
-        document.getElementById('resFinal').innerText = texts[lang].resFinal;
-        document.getElementById('lblProfitInd').innerText = texts[lang].profitInd;
+        const t = {
+            ar: {
+                amount: "المبلغ الأساسي", admin: "المصاريف (%)", interest: "الفايدة (%)", months: "المدة (بالشهور)",
+                profitInd: "إجمالي الربح (فوائد + مصاريف)", riskInd: "مستوى مخاطرة القسط",
+                resAdmin: "المصاريف الإدارية:", resNet: "الصافي بعد المصاريف:", resInt: "إجمالي الفائدة:",
+                resMonth: "القسط الشهري (مقرب):", resFinal: "صافي المستلم النهائي:",
+                save: "تصدير البيانات كصورة", share: "مشاركة الموقع", reset: "مسح",
+                infoT: "دليل الاستخدام", infoL: `<li>تخصم المصاريف الإدارية من أصل المبلغ مباشرة.</li><li>القسط الشهري مقرب لأقرب 5 جنيهات لتسهيل التحصيل.</li><li><b>مؤشر الربح:</b> يجمع بين المصاريف الإدارية وإجمالي الفوائد.</li><li><b>صافي المستلم النهائي:</b> هو المبلغ الذي سيستلمه العميل بعد خصم المصاريف الإدارية والقسط الأول.</li>`
+            },
+            en: {
+                amount: "Principal Amount", admin: "Admin Fees (%)", interest: "Interest (%)", months: "Duration (Months)",
+                profitInd: "Total Profit (Interest + Admin)", riskInd: "Payment Risk Level",
+                resAdmin: "Admin Fees:", resNet: "Net After Admin:", resInt: "Total Interest:",
+                resMonth: "Monthly Payment:", resFinal: "Final Net Received:",
+                save: "Export as Image", share: "Share Website", reset: "Reset",
+                infoT: "User Guide", infoL: `<li>Admin fees are deducted from principal.</li><li>Monthly payment is rounded to nearest 5.</li><li><b>Profit:</b> Sum of admin fees and interest.</li><li><b>Final Net:</b> Amount after admin fees and 1st payment.</li>`
+            }
+        }[lang];
+
+        document.getElementById('lblAmount').innerText = t.amount;
+        document.getElementById('lblAdminRate').innerText = t.admin;
+        document.getElementById('lblInterest').innerText = t.interest;
+        document.getElementById('lblMonths').innerText = t.months;
+        document.getElementById('lblProfitInd').innerText = t.profitInd;
+        document.getElementById('lblRiskInd').innerText = t.riskInd;
+        document.getElementById('txtResAdmin').innerText = t.resAdmin;
+        document.getElementById('txtResNet').innerText = t.resNet;
+        document.getElementById('txtResTotalInt').innerText = t.resInt;
+        document.getElementById('txtResMonthly').innerText = t.resMonth;
+        document.getElementById('resFinal').innerText = t.resFinal;
+        document.getElementById('btnSaveTxt').innerText = t.save;
+        document.getElementById('btnShareTxt').innerText = t.share;
+        document.getElementById('btnResetTxt').innerText = t.reset;
+        document.getElementById('infoTitle').innerText = t.infoT;
+        document.getElementById('infoList').innerHTML = t.infoL;
         calculate();
     }
 
@@ -242,13 +267,15 @@
         const months = parseInt(document.getElementById('months').value) || 0;
 
         const adminFee = amount * (adminRate / 100);
+        const netAfterAdmin = amount - adminFee;
         const totalInterest = amount * (interestRate / 100) * (months / 12);
         const rawMonthly = months > 0 ? (amount + totalInterest) / months : 0;
         const roundedMonthly = Math.ceil(rawMonthly / 5) * 5;
-        // صافي المستلم النهائي = المبلغ الأساسي - المصاريف الإدارية - أول قسط
-        const netFinal = amount > 0 ? (amount - adminFee - roundedMonthly) : 0;
+        const netFinal = amount > 0 ? (netAfterAdmin - roundedMonthly) : 0;
 
         document.getElementById('adminFee').innerText = adminFee.toLocaleString();
+        document.getElementById('netAfterAdmin').innerText = netAfterAdmin.toLocaleString();
+        document.getElementById('totalInterestVal').innerText = totalInterest.toLocaleString();
         document.getElementById('monthlyPayment').innerText = roundedMonthly.toLocaleString();
         document.getElementById('netAmount').innerText = Math.max(0, Math.floor(netFinal)).toLocaleString();
 
@@ -265,7 +292,8 @@
     }
 
     function resetAll() {
-        document.querySelectorAll('input').forEach(i => i.value = (i.id === 'adminRate' ? '5' : ''));
+        document.getElementById('amount').value = ''; document.getElementById('interest').value = '';
+        document.getElementById('months').value = ''; document.getElementById('adminRate').value = '5';
         calculate();
     }
 
@@ -275,11 +303,9 @@
     }
 
     async function downloadImage() {
-        // تحديد اسم الملف المطلوب
-        const fileName = 'Finance-Calculator.png';
         const canvas = await html2canvas(document.getElementById('calculatorCard'), { backgroundColor: '#020617', scale: 2 });
         const link = document.createElement('a');
-        link.download = fileName;
+        link.download = 'Finance-Calculator.png';
         link.href = canvas.toDataURL();
         link.click();
     }
