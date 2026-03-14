@@ -16,7 +16,7 @@
             --primary-neon: #00f2ff;
             --secondary-neon: #7000ff;
             --border-color: rgba(0, 242, 255, 0.2);
-            --glow: 0 0 15px rgba(0, 242, 255, 0.3);
+            --glow-static: 0 0 10px rgba(0, 242, 255, 0.5);
         }
 
         [data-theme="light"] {
@@ -27,15 +27,14 @@
             --primary-neon: #0ea5e9;
             --secondary-neon: #6366f1;
             --border-color: #e2e8f0;
-            --glow: 0 0 10px rgba(14, 165, 233, 0.1);
+            --glow-static: 0 0 5px rgba(14, 165, 233, 0.2);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
         body {
             font-family: 'Cairo', 'Poppins', sans-serif;
             background-color: var(--bg-color);
-            /* خلفية جمالية متحركة هادئة */
             background: linear-gradient(135deg, var(--bg-color) 0%, #0f172a 50%, #020617 100%);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -46,7 +45,6 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
         }
 
         @keyframes gradientBG {
@@ -63,73 +61,57 @@
             backdrop-filter: blur(15px);
             border-radius: 30px;
             border: 2px solid var(--border-color);
-            box-shadow: var(--glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             margin-bottom: 25px;
-            position: relative;
-            animation: slideUp 1s ease-out;
+            animation: slideUp 0.8s ease-out;
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* تعديل الشعار: ظهور انسيابي وتوهج هادئ */
+        /* حل مشكلة الوميض المزعج: توهج ثابت ونبض فائق النعومة */
         .logo-main {
             font-size: 2.2rem; font-weight: 800; color: var(--text-color);
             text-align: center; margin-top: 10px;
             letter-spacing: 2px;
-            animation: fadeInDown 1.2s ease-out, breathing 4s infinite ease-in-out;
+            /* توهج أساسي ثابت لراحة العين */
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
+            animation: steady-glow 4s infinite ease-in-out;
         }
         .logo-main span { color: var(--primary-neon); }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes steady-glow {
+            0%, 100% { text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); transform: scale(1); }
+            50% { text-shadow: 0 0 15px rgba(0, 242, 255, 0.6), 0 0 25px rgba(0, 242, 255, 0.2); transform: scale(1.01); }
         }
 
-        @keyframes breathing {
-            0%, 100% { text-shadow: 0 0 5px var(--primary-neon); transform: scale(1); }
-            50% { text-shadow: 0 0 20px var(--primary-neon), 0 0 30px var(--primary-neon); transform: scale(1.02); }
-        }
-
-        /* تعديل نص Finance Calculator: ظهور بحركة تباعد الأحرف */
         .sub-logo {
             text-align: center; 
-            opacity: 0.8; 
+            opacity: 0.7; 
             font-size: 0.85rem; 
             margin: 0 0 2rem 0;
             color: var(--primary-neon);
-            text-transform: uppercase;
             letter-spacing: 3px;
-            animation: trackingIn 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+            text-transform: uppercase;
         }
 
-        @keyframes trackingIn {
-            0% { letter-spacing: -0.5em; opacity: 0; }
-            40% { opacity: 0.6; }
-            100% { opacity: 0.8; }
-        }
-
+        /* باقي التنسيقات كما هي للحفاظ على الشكل */
         .btn-tool {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex; align-items: center; gap: 6px;
-            font-size: 0.9rem;
+            background: var(--input-bg); border: 1px solid var(--border-color);
+            color: var(--text-color); padding: 8px 14px; border-radius: 10px;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;
         }
-        .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,242,255,0.1); border-color: var(--primary-neon); }
+        .btn-tool:hover { transform: translateY(-2px); border-color: var(--primary-neon); }
         .btn-reset:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
         input {
             width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none; font-size: 1rem;
-            line-height: 1.5; height: 50px;
+            height: 50px;
         }
-        input:focus { border-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); }
+        input:focus { border-color: var(--primary-neon); box-shadow: 0 0 10px rgba(0,242,255,0.2); }
 
         .smart-indicators { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.1); border-radius: 15px; border: 1px solid var(--border-color); }
         .indicator-bar { height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-top: 5px; }
@@ -139,11 +121,7 @@
         .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
         .result-item span:last-child { color: var(--primary-neon); font-weight: bold; }
 
-        #monthlyPayment {
-            color: var(--primary-neon) !important;
-            text-shadow: 0 0 5px rgba(0, 242, 255, 0.4);
-            font-size: 1.1rem;
-        }
+        #monthlyPayment { color: var(--primary-neon) !important; font-size: 1.1rem; }
 
         .action-btn {
             width: 100%; background: transparent; padding: 14px; border-radius: 15px; font-weight: bold; 
@@ -162,7 +140,7 @@
         }
 
         .dev-signature { font-family: 'Poppins'; font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 1px; }
-        .dev-signature span { color: var(--primary-neon); font-weight: 800; text-shadow: 0 0 5px var(--primary-neon); }
+        .dev-signature span { color: var(--primary-neon); font-weight: 800; }
 
         .social-footer { display: flex; gap: 20px; margin-bottom: 30px; }
         .social-icon { 
@@ -170,7 +148,7 @@
             justify-content: center; color: var(--text-color); text-decoration: none; font-size: 1.5rem; 
             background: var(--input-bg); border: 1px solid var(--border-color);
         }
-        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); box-shadow: 0 5px 15px rgba(0,242,255,0.2); }
+        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); }
     </style>
 </head>
 <body>
@@ -256,7 +234,7 @@
 </div>
 
 <script>
-    // جميع الوظائف البرمجية تم الحفاظ عليها بالكامل دون أي تغيير
+    // جميع الوظائف باقية كما هي دون أي تغيير لضمان الحفاظ على العمليات الحسابية
     function toggleTheme() {
         const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', next);
