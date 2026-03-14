@@ -17,7 +17,6 @@
             --secondary-neon: #7000ff;
             --border-color: rgba(0, 242, 255, 0.2);
             --glow: 0 0 15px rgba(0, 242, 255, 0.3);
-            --ramadan-gold: #ffd700;
         }
 
         [data-theme="light"] {
@@ -29,7 +28,6 @@
             --secondary-neon: #6366f1;
             --border-color: #e2e8f0;
             --glow: 0 0 10px rgba(14, 165, 233, 0.1);
-            --ramadan-gold: #b8860b;
         }
 
         * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -44,21 +42,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
         }
-
-        /* زينة رمضان */
-        .ramadan-decor {
-            position: fixed;
-            color: var(--ramadan-gold);
-            font-size: 1.5rem;
-            opacity: 0.5;
-            z-index: -1;
-            filter: drop-shadow(0 0 5px var(--ramadan-gold));
-        }
-        .decor-1 { top: 20px; left: 20px; transform: rotate(-15deg); }
-        .decor-2 { top: 20px; right: 20px; transform: rotate(15deg); }
 
         .container {
             width: 100%;
@@ -86,17 +70,32 @@
         .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,242,255,0.1); border-color: var(--primary-neon); }
         .btn-reset:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
+        /* التعديل: حركة الشعار أصبحت مريحة للعين */
         .logo-main {
             font-size: 2rem; font-weight: 800; color: var(--text-color);
+            animation: gentle-breathe 4s infinite ease-in-out; 
             letter-spacing: 2px;
             text-align: center; margin-top: 10px;
-            animation: slow-pulse 4s infinite ease-in-out; /* حركة هادئة جداً */
         }
         .logo-main span { color: var(--primary-neon); }
         
-        @keyframes slow-pulse {
-            0%, 100% { opacity: 1; text-shadow: 0 0 5px var(--primary-neon); }
-            50% { opacity: 0.8; text-shadow: 0 0 15px var(--primary-neon); }
+        @keyframes gentle-breathe {
+            0%, 100% { text-shadow: 0 0 5px var(--primary-neon); opacity: 1; }
+            50% { text-shadow: 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); opacity: 0.9; }
+        }
+
+        /* التعديل: تأثير جمالي للنص الفرعي */
+        .sub-logo {
+            text-align: center; 
+            opacity: 0.6; 
+            font-size: 0.8rem; 
+            margin: 0 0 2rem 0;
+            letter-spacing: 1px;
+            animation: tracking-in 2s ease-out;
+        }
+        @keyframes tracking-in {
+            0% { letter-spacing: -2px; opacity: 0; }
+            100% { letter-spacing: 1px; opacity: 0.6; }
         }
 
         input {
@@ -150,9 +149,6 @@
 </head>
 <body>
 
-<div class="ramadan-decor decor-1"><i class="fas fa-moon"></i></div>
-<div class="ramadan-decor decor-2"><i class="fas fa-lantern"></i></div>
-
 <div class="container" id="calculatorCard">
     <div class="header-actions" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
         <div style="display: flex; gap: 8px;">
@@ -163,7 +159,7 @@
     </div>
 
     <div class="logo-main">FC <span>ESNA 2</span></div>
-    <p style="text-align: center; opacity: 0.6; font-size: 0.8rem; margin: 0 0 2rem 0;">Finance Calculator</p>
+    <p class="sub-logo">Finance Calculator</p>
 
     <div class="input-group">
         <label id="lblAmount">المبلغ الأساسي</label>
