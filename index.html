@@ -11,7 +11,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
-    <title>FC ESNA 2 - Finance Calculator</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Finance Calculator">
+    <meta property="og:site_name" content="Finance Calculator">
+    <meta property="og:url" content="https://osamadoby.github.io/Calc/">
+    <meta property="og:image" content="https://osamadoby.github.io/Calc/icon-512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Finance Calculator">
+    <meta name="application-name" content="Finance Calculator">
+    <title>Finance Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -217,7 +225,61 @@
         }
         @media (min-width: 1400px) { .container, .info-box { max-width: 1120px; } }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; } }
+        /* ===== Design C: glass aurora, auto light/dark ===== */
+        :root { color-scheme: light dark; }
+        [data-theme="light"] { --bg-color:#e9f4f8; --card-bg:rgba(255,255,255,.55); --text-color:#16313a; --muted:#4f6a73; --input-bg:rgba(255,255,255,.75); --border-color:rgba(255,255,255,.8); --primary-neon:#17788a; --secondary-neon:#e1591f; --accent-soft:rgba(124,108,240,.16); --glow:0 20px 50px rgba(90,70,160,.18); }
+        [data-theme="dark"] { --bg-color:#0a1522; --card-bg:rgba(18,32,48,.58); --text-color:#e9f3f7; --muted:#9bb5c0; --input-bg:rgba(255,255,255,.07); --border-color:rgba(255,255,255,.12); --primary-neon:#58d4e6; --secondary-neon:#ff9a52; --accent-soft:rgba(124,108,240,.22); --glow:0 20px 50px rgba(0,0,0,.45); }
+        body { background-attachment: fixed !important; }
+        [data-theme="light"] body { background: linear-gradient(135deg,#bff1f7 0%,#d9d3ff 45%,#ffd9c0 100%) !important; color: var(--text-color); }
+        [data-theme="dark"] body { background: radial-gradient(600px 420px at 95% 0,rgba(243,112,33,.22),transparent 62%), radial-gradient(640px 480px at 0 100%,rgba(21,171,193,.25),transparent 62%), radial-gradient(500px 400px at 60% 40%,rgba(124,108,240,.18),transparent 65%), #0a1522 !important; }
+        .container, .info-box, .rev-box { background: var(--card-bg) !important; backdrop-filter: blur(22px) saturate(1.4); -webkit-backdrop-filter: blur(22px) saturate(1.4); border: 1px solid var(--border-color) !important; border-radius: 32px !important; box-shadow: var(--glow) !important; }
+        .container::before { display: none; }
+        .brand-bar { background: linear-gradient(120deg, rgba(21,171,193,.95), rgba(124,108,240,.9)) !important; border-radius: 0 0 32px 32px; margin-bottom: 1.6rem !important; }
+        .brand-bar::before { background: rgba(255,190,140,.5) !important; } .brand-bar::after { background: rgba(255,255,255,.22) !important; }
+        input { border-radius: 18px !important; background: var(--input-bg) !important; color: var(--text-color) !important; }
+        input:focus { background: var(--input-bg) !important; border-color: #7c6cf0 !important; box-shadow: 0 0 0 4px rgba(124,108,240,.2) !important; }
+        .btn-tool { border-radius: 999px !important; }
+        .smart-indicators { border-radius: 22px !important; background: var(--input-bg) !important; border: 1px solid var(--border-color) !important; }
+        .result-item { border-radius: 20px !important; background: var(--input-bg) !important; border: none !important; border-bottom: 3px solid #b9aaff !important; }
+        .result-item:nth-child(2) { border-bottom-color: #7fe0ec !important; } .result-item:nth-child(3) { border-bottom-color: #ffc79a !important; } .result-item:nth-child(4) { border-bottom-color: #ff9a6b !important; }
+        .result-item:last-child { background: linear-gradient(120deg,#7c6cf0,#15abc1) !important; box-shadow: 0 14px 30px rgba(124,108,240,.4) !important; border-bottom: none !important; }
+        .save-btn { background: linear-gradient(120deg,#f37021,#ff9a52) !important; box-shadow: 0 12px 26px rgba(243,112,33,.4) !important; border: none !important; color: #fff !important; }
+        .share-btn { border: 2px solid #7c6cf0 !important; color: var(--primary-neon) !important; background: transparent !important; }
+        [data-theme="light"] .share-btn { color: #6a5ae0 !important; }
+        .share-btn:hover { background: #7c6cf0 !important; color: #fff !important; }
+        #infoTitle, .rev-title { color: var(--secondary-neon) !important; background: none !important; }
+        .info-box { border-top: 1px solid var(--border-color) !important; }
+        .social-icon { background: #1c8697; }
+        /* reverse calculator */
+        .rev-box { width: 100%; max-width: 440px; padding: 1.4rem 1.6rem 1.6rem; margin-bottom: 22px; animation: riseIn .8s cubic-bezier(.22,1,.36,1) .1s both; position: relative; overflow: hidden; }
+        .rev-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg,#f37021,#ffb347,#15abc1,#7c6cf0); }
+        .rev-title { margin: .4rem 0 .3rem; font-size: 1.15rem; font-weight: 800; }
+        .rev-hint { margin: 0 0 1rem; font-size: .82rem; color: var(--muted); line-height: 1.7; }
+        .rev-out { margin-top: 1rem; display: grid; gap: 8px; }
+        .rev-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 16px; background: var(--input-bg); color: var(--muted); font-size: .9rem; }
+        .rev-row b { color: var(--primary-neon); font-size: .98rem; }
+        .rev-row.main { background: linear-gradient(120deg,#f37021,#ff9a52); color: #fff; padding: 15px 16px; box-shadow: 0 12px 26px rgba(243,112,33,.35); }
+        .rev-row.main b { color: #fff; font-size: 1.3rem; }
+        .rev-use { background: linear-gradient(120deg,#7c6cf0,#15abc1); color: #fff; border: none; width: 100%; padding: 13px; border-radius: 999px; font-family: 'Cairo'; font-weight: 800; font-size: .92rem; cursor: pointer; margin-top: 12px; box-shadow: 0 10px 22px rgba(124,108,240,.35); }
+        .rev-use:hover { transform: translateY(-3px); }
+        @media (max-width: 899px) { .rev-box { max-width: 460px; } }
+        @media (min-width: 900px) { .rev-box { max-width: 1040px; padding: 1.6rem 2.4rem 2rem; } .rev-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.2rem; align-items: start; } .rev-out { margin-top: 0; } }
+        @media (min-width: 1400px) { .rev-box { max-width: 1120px; } }
+
+        .rev-note { font-size: .78rem; color: var(--muted); margin: 12px 0 0; line-height: 1.7; }
+        .rev-table-wrap { border-radius: 20px; overflow: hidden; background: var(--input-bg); border: 1px solid var(--border-color); }
+        .rev-sub { padding: 9px 14px; font-weight: 800; font-size: .82rem; color: var(--muted); text-align: right; }
+        .rev-head, .rev-row-t { display: grid; grid-template-columns: .9fr 1.3fr .9fr 1.2fr; gap: 6px; padding: 10px 14px; align-items: center; text-align: center; }
+        .rev-head { background: linear-gradient(120deg,#15abc1,#7c6cf0); color: #fff; font-weight: 800; font-size: .8rem; }
+        .rev-row-t { font-size: .88rem; color: var(--muted); border-top: 1px solid var(--border-color); cursor: pointer; }
+        .rev-row-t:nth-child(even) { background: rgba(124,108,240,.07); }
+        .rev-row-t.sel { background: rgba(243,112,33,.2) !important; box-shadow: inset 4px 0 0 #f37021; }
+        .rev-row-t:hover { background: rgba(243,112,33,.14); transform: translateX(-3px); }
+        .rev-row-t .m { color: var(--text-color); font-weight: 800; }
+        .rev-row-t b { color: var(--secondary-neon); font-size: 1rem; }
+        .rev-row-t .n { color: var(--primary-neon); font-weight: 800; }
 </style>
+<script>(function(){try{document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}})();</script>
 </head>
 <body>
 
@@ -289,6 +351,45 @@
     <button class="action-btn save-btn" onclick="downloadImage()"><i class="fas fa-file-download"></i> <span id="btnSaveTxt">تصدير البيانات كصورة</span></button>
     <button class="action-btn share-btn" onclick="shareApp()"><i class="fas fa-share-nodes"></i> <span id="btnShareTxt">مشاركة الموقع</span></button>
 </div>
+    </div>
+</div>
+
+<div class="rev-box" id="revBox">
+    <h3 class="rev-title" id="revTitle">الحاسبة العكسية</h3>
+    <p class="rev-hint" id="revHint">اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها)، وتحت جدول لباقي المدد.</p>
+    <div class="rev-grid">
+        <div class="rev-inputs">
+            <div class="input-group">
+                <label id="revLbl">القسط الشهري المطلوب</label>
+                <input type="number" id="revMonthly" placeholder="0" oninput="revCalc()">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <div class="input-group">
+                    <label id="revLblMonths">المدة (شهور)</label>
+                    <input type="number" id="revMonths" value="12" oninput="revCalc()">
+                </div>
+                <div class="input-group">
+                    <label id="revLblFeeRate">الرسوم (%)</label>
+                    <input type="number" id="revFeeRate" value="5" oninput="revCalc()">
+                </div>
+                <div class="input-group">
+                    <label id="revLblRate">الفايدة (%)</label>
+                    <input type="number" id="revRate" placeholder="0" oninput="revCalc()">
+                </div>
+            </div>
+            <div class="rev-out">
+                <div class="rev-row main"><span id="revLblMax">أقصى مبلغ لمدة 12 شهر:</span><b id="revMax">0</b></div>
+                <div class="rev-row"><span id="revLblFee">الرسوم:</span><b id="revFee">0</b></div>
+                <div class="rev-row"><span id="revLblNet">صافي المستلم:</span><b id="revNet">0</b></div>
+                <button class="rev-use" id="revUse" onclick="revApply()">استخدم المبلغ في الحاسبة فوق</button>
+            </div>
+            <p class="rev-note" id="revNote">اضغط على أي صف لنقل أرقامه للحاسبة الأساسية فوق.</p>
+        </div>
+        <div class="rev-table-wrap">
+            <div class="rev-sub" id="revSub">كل المدد</div>
+            <div class="rev-head"><span id="revH1">المدة</span><span id="revH2">أقصى مبلغ</span><span id="revH3">الرسوم</span><span id="revH4">صافي المستلم</span></div>
+            <div id="revRows"></div>
+        </div>
     </div>
 </div>
 
@@ -405,7 +506,7 @@
     }
 
     function shareApp() {
-        if (navigator.share) navigator.share({ title: 'FC ESNA 2', url: window.location.href });
+        if (navigator.share) navigator.share({ title: 'Finance Calculator', url: window.location.href });
         else alert("تم نسخ الرابط!");
     }
 
@@ -433,6 +534,94 @@
             console.error("خطأ في تصدير الصورة:", err);
         }
     }
+</script>
+<script>
+// ===== additions only: the original functions above are untouched =====
+(function () {
+    const DURATIONS = [3, 6, 9, 12, 15, 18, 21, 24, 30, 36];
+    // Exact inverse of the existing flat-interest formula
+    function fwdMonthly(P, rate, n) {
+        const ti = Math.round(P * (rate / 100) * (n / 12));
+        return Math.ceil(((P + ti) / n) / 5) * 5;
+    }
+    function maxPrincipal(Meff, rate, n) {
+        if (Meff <= 0 || n <= 0) return 0;
+        let P = Math.floor(Meff * n / (1 + (rate / 100) * (n / 12)));
+        while (P > 0 && fwdMonthly(P, rate, n) > Meff) P--;
+        while (fwdMonthly(P + 1, rate, n) <= Meff) P++;
+        return P;
+    }
+    window.revCalc = function () {
+        const M = parseFloat(document.getElementById('revMonthly').value) || 0;
+        const feeRate = parseFloat(document.getElementById('revFeeRate').value) || 0;
+        const rate = parseFloat(document.getElementById('revRate').value) || 0;
+        const Meff = Math.floor(M / 5) * 5; // real installments round UP to 5, so the usable cap is a multiple of 5
+        const ar = document.documentElement.getAttribute('lang') === 'ar';
+        const nSel = parseInt(document.getElementById('revMonths').value) || 0;
+        const Ps = maxPrincipal(Meff, rate, nSel);
+        const feeS = Math.round(Ps * (feeRate / 100));
+        const payS = Ps > 0 ? fwdMonthly(Ps, rate, nSel) : 0;
+        document.getElementById('revMax').innerText = Ps.toLocaleString();
+        document.getElementById('revFee').innerText = feeS.toLocaleString();
+        document.getElementById('revNet').innerText = Ps > 0 ? Math.max(0, Math.round((Ps - feeS) - payS)).toLocaleString() : '0';
+        document.getElementById('revLblMax').innerText = (ar ? 'أقصى مبلغ لمدة ' + nSel + ' شهر:' : 'Max amount for ' + nSel + ' months:');
+        window.__rev = { P: Ps, n: nSel, rate: rate, feeRate: feeRate };
+        const box = document.getElementById('revRows');
+        box.innerHTML = '';
+        DURATIONS.forEach(n => {
+            const P = maxPrincipal(Meff, rate, n);
+            const fee = Math.round(P * (feeRate / 100));
+            const pay = P > 0 ? fwdMonthly(P, rate, n) : 0;
+            const net = P > 0 ? Math.max(0, Math.round((P - fee) - pay)) : 0;
+            const row = document.createElement('div');
+            row.className = 'rev-row-t' + (n === nSel ? ' sel' : '');
+            row.innerHTML = '<span class="m">' + n + ' ' + (ar ? 'شهر' : 'mo') + '</span><b>' + P.toLocaleString() + '</b><span>' + fee.toLocaleString() + '</span><span class="n">' + net.toLocaleString() + '</span>';
+            row.onclick = function () {
+                if (!P) return;
+                document.getElementById('amount').value = P;
+                document.getElementById('adminRate').value = feeRate;
+                document.getElementById('interest').value = rate;
+                document.getElementById('months').value = n;
+                calculate();
+                document.getElementById('calculatorCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+            box.appendChild(row);
+        });
+    };
+    window.revApply = function () {
+        const r = window.__rev; if (!r || !r.P) return;
+        document.getElementById('amount').value = r.P;
+        document.getElementById('adminRate').value = r.feeRate;
+        document.getElementById('interest').value = r.rate;
+        document.getElementById('months').value = r.n;
+        calculate();
+        document.getElementById('calculatorCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    function revTexts() {
+        const ar = document.documentElement.getAttribute('lang') === 'ar';
+        const t = ar ? ['الحاسبة العكسية','اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها)، وتحت جدول لباقي المدد.','القسط الشهري المطلوب','الرسوم (%)','الفايدة (%)','اضغط على أي صف في الجدول لنقل أرقامه للحاسبة الأساسية فوق.','المدة','أقصى مبلغ','الرسوم','صافي المستلم','المدة (شهور)','الرسوم:','صافي المستلم:','استخدم المبلغ في الحاسبة فوق','كل المدد']
+                       : ['Reverse Calculator','Enter the monthly payment the client can afford, plus interest and fees. The max financing for the chosen duration (12 months by default, editable) shows first, with a table of other durations below.','Desired Monthly Payment','Fees (%)','Interest (%)','Tap any table row to send its numbers to the main calculator above.','Duration','Max Amount','Fees','Net Received','Duration (months)','Fees:','Net Received:','Use this amount in the calculator','All durations'];
+        ['revTitle','revHint','revLbl','revLblFeeRate','revLblRate','revNote','revH1','revH2','revH3','revH4','revLblMonths','revLblFee','revLblNet','revUse','revSub'].forEach((id, i) => document.getElementById(id).innerText = t[i]);
+        revCalc();
+    }
+    new MutationObserver(revTexts).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    revCalc();
+
+    // Auto light/dark from the device setting; the manual button still works
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    let manual = false;
+    function applyAuto() {
+        if (manual) return;
+        const t = mq.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        document.getElementById('themeBtn').innerText = t === 'light' ? '☀️' : '🌙';
+        const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'dark' ? '#0a1522' : '#15abc1');
+    }
+    const origToggle = window.toggleTheme;
+    window.toggleTheme = function () { manual = true; origToggle(); };
+    if (mq.addEventListener) mq.addEventListener('change', applyAuto); else if (mq.addListener) mq.addListener(applyAuto);
+    applyAuto();
+})();
 </script>
 </body>
 </html>
