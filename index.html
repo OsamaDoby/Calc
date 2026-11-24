@@ -278,6 +278,14 @@
         .rev-row-t .m { color: var(--text-color); font-weight: 800; }
         .rev-row-t b { color: var(--secondary-neon); font-size: 1rem; }
         .rev-row-t .n { color: var(--primary-neon); font-weight: 800; }
+
+        .rev-grid { grid-template-columns: 1fr !important; }
+        .rev-table-wrap[hidden], .rev-note[hidden], .rev-warn[hidden] { display: none !important; }
+        .rev-table-wrap { margin-top: 14px; animation: slideSoft .5s cubic-bezier(.22,1,.36,1) both; }
+        .rev-warn { margin: 10px 0 0; padding: 9px 14px; border-radius: 14px; background: rgba(239,68,68,.14); color: #e04848; font-size: .82rem; font-weight: 700; }
+        .rev-sugg { width: 100%; margin-top: 10px; padding: 13px; border-radius: 999px; font-family: 'Cairo'; font-weight: 800; font-size: .92rem; cursor: pointer; background: transparent; border: 2px solid #f37021; color: #f37021; }
+        .rev-sugg:hover { background: #f37021; color: #fff; transform: translateY(-3px); }
+        @media (min-width: 900px) { .rev-grid.open { grid-template-columns: 1fr 1fr !important; } .rev-grid.open .rev-table-wrap { margin-top: 0; } }
 </style>
 <script>(function(){try{document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}})();</script>
 </head>
@@ -356,8 +364,8 @@
 
 <div class="rev-box" id="revBox">
     <h3 class="rev-title" id="revTitle">الحاسبة العكسية</h3>
-    <p class="rev-hint" id="revHint">اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها)، وتحت جدول لباقي المدد.</p>
-    <div class="rev-grid">
+    <p class="rev-hint" id="revHint">اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها، والمدد زوجية بس). ولو عايز اقتراحات لباقي المدد دوس زر الاقتراحات.</p>
+    <div class="rev-grid" id="revGrid">
         <div class="rev-inputs">
             <div class="input-group">
                 <label id="revLbl">القسط الشهري المطلوب</label>
@@ -366,7 +374,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
                 <div class="input-group">
                     <label id="revLblMonths">المدة (شهور)</label>
-                    <input type="number" id="revMonths" value="12" oninput="revCalc()">
+                    <input type="number" id="revMonths" value="12" min="2" step="2" oninput="revCalc()">
                 </div>
                 <div class="input-group">
                     <label id="revLblFeeRate">الرسوم (%)</label>
@@ -377,15 +385,17 @@
                     <input type="number" id="revRate" placeholder="0" oninput="revCalc()">
                 </div>
             </div>
+            <p class="rev-warn" id="revWarn" hidden>المدة لازم تكون زوجية (2، 4، 6، 8...)</p>
             <div class="rev-out">
                 <div class="rev-row main"><span id="revLblMax">أقصى مبلغ لمدة 12 شهر:</span><b id="revMax">0</b></div>
                 <div class="rev-row"><span id="revLblFee">الرسوم:</span><b id="revFee">0</b></div>
                 <div class="rev-row"><span id="revLblNet">صافي المستلم:</span><b id="revNet">0</b></div>
                 <button class="rev-use" id="revUse" onclick="revApply()">استخدم المبلغ في الحاسبة فوق</button>
+                <button class="rev-sugg" id="revSuggBtn" onclick="revToggle()" aria-expanded="false">اقتراحات المدد</button>
             </div>
-            <p class="rev-note" id="revNote">اضغط على أي صف لنقل أرقامه للحاسبة الأساسية فوق.</p>
+            <p class="rev-note" id="revNote" hidden>اضغط على أي صف لنقل أرقامه للحاسبة الأساسية فوق.</p>
         </div>
-        <div class="rev-table-wrap">
+        <div class="rev-table-wrap" id="revTableWrap" hidden>
             <div class="rev-sub" id="revSub">كل المدد</div>
             <div class="rev-head"><span id="revH1">المدة</span><span id="revH2">أقصى مبلغ</span><span id="revH3">الرسوم</span><span id="revH4">صافي المستلم</span></div>
             <div id="revRows"></div>
@@ -538,7 +548,7 @@
 <script>
 // ===== additions only: the original functions above are untouched =====
 (function () {
-    const DURATIONS = [3, 6, 9, 12, 15, 18, 21, 24, 30, 36];
+    const DURATIONS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]; // even months only
     // Exact inverse of the existing flat-interest formula
     function fwdMonthly(P, rate, n) {
         const ti = Math.round(P * (rate / 100) * (n / 12));
@@ -558,7 +568,9 @@
         const Meff = Math.floor(M / 5) * 5; // real installments round UP to 5, so the usable cap is a multiple of 5
         const ar = document.documentElement.getAttribute('lang') === 'ar';
         const nSel = parseInt(document.getElementById('revMonths').value) || 0;
-        const Ps = maxPrincipal(Meff, rate, nSel);
+        const evenOk = nSel >= 2 && nSel % 2 === 0;
+        document.getElementById('revWarn').hidden = evenOk || document.getElementById('revMonths').value === '';
+        const Ps = evenOk ? maxPrincipal(Meff, rate, nSel) : 0;
         const feeS = Math.round(Ps * (feeRate / 100));
         const payS = Ps > 0 ? fwdMonthly(Ps, rate, nSel) : 0;
         document.getElementById('revMax').innerText = Ps.toLocaleString();
@@ -588,6 +600,18 @@
             box.appendChild(row);
         });
     };
+    window.revToggle = function () {
+        const g = document.getElementById('revGrid'), w = document.getElementById('revTableWrap'), n = document.getElementById('revNote');
+        const open = w.hidden;
+        w.hidden = !open; n.hidden = !open; g.classList.toggle('open', open);
+        document.getElementById('revSuggBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
+        setSuggLabel();
+    };
+    function setSuggLabel() {
+        const ar = document.documentElement.getAttribute('lang') === 'ar';
+        const open = !document.getElementById('revTableWrap').hidden;
+        document.getElementById('revSuggBtn').innerText = ar ? (open ? 'إخفاء الاقتراحات' : 'اقتراحات المدد') : (open ? 'Hide suggestions' : 'Duration suggestions');
+    }
     window.revApply = function () {
         const r = window.__rev; if (!r || !r.P) return;
         document.getElementById('amount').value = r.P;
@@ -599,10 +623,11 @@
     };
     function revTexts() {
         const ar = document.documentElement.getAttribute('lang') === 'ar';
-        const t = ar ? ['الحاسبة العكسية','اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها)، وتحت جدول لباقي المدد.','القسط الشهري المطلوب','الرسوم (%)','الفايدة (%)','اضغط على أي صف في الجدول لنقل أرقامه للحاسبة الأساسية فوق.','المدة','أقصى مبلغ','الرسوم','صافي المستلم','المدة (شهور)','الرسوم:','صافي المستلم:','استخدم المبلغ في الحاسبة فوق','كل المدد']
-                       : ['Reverse Calculator','Enter the monthly payment the client can afford, plus interest and fees. The max financing for the chosen duration (12 months by default, editable) shows first, with a table of other durations below.','Desired Monthly Payment','Fees (%)','Interest (%)','Tap any table row to send its numbers to the main calculator above.','Duration','Max Amount','Fees','Net Received','Duration (months)','Fees:','Net Received:','Use this amount in the calculator','All durations'];
-        ['revTitle','revHint','revLbl','revLblFeeRate','revLblRate','revNote','revH1','revH2','revH3','revH4','revLblMonths','revLblFee','revLblNet','revUse','revSub'].forEach((id, i) => document.getElementById(id).innerText = t[i]);
+        const t = ar ? ['الحاسبة العكسية','اكتب القسط الشهري اللي العميل يقدر يدفعه والفايدة والرسوم، وهتظهرلك أقصى مبلغ للمدة المحددة (12 شهر مكتوبة تلقائي وتقدر تعدلها)، وتحت جدول لباقي المدد.','القسط الشهري المطلوب','الرسوم (%)','الفايدة (%)','اضغط على أي صف في الجدول لنقل أرقامه للحاسبة الأساسية فوق.','المدة','أقصى مبلغ','الرسوم','صافي المستلم','المدة (شهور)','الرسوم:','صافي المستلم:','استخدم المبلغ في الحاسبة فوق','كل المدد','المدة لازم تكون زوجية (2، 4، 6، 8...)']
+                       : ['Reverse Calculator','Enter the monthly payment the client can afford, plus interest and fees. The max financing for the chosen duration (12 months by default, editable, even months only) shows first. Tap the suggestions button for other durations.','Desired Monthly Payment','Fees (%)','Interest (%)','Tap any table row to send its numbers to the main calculator above.','Duration','Max Amount','Fees','Net Received','Duration (months)','Fees:','Net Received:','Use this amount in the calculator','All durations','Duration must be an even number (2, 4, 6, 8...)'];
+        ['revTitle','revHint','revLbl','revLblFeeRate','revLblRate','revNote','revH1','revH2','revH3','revH4','revLblMonths','revLblFee','revLblNet','revUse','revSub','revWarn'].forEach((id, i) => document.getElementById(id).innerText = t[i]);
         revCalc();
+        setSuggLabel();
     }
     new MutationObserver(revTexts).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     revCalc();
